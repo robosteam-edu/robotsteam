@@ -1,0 +1,1269 @@
+[index.html](https://github.com/user-attachments/files/28433329/index.html)
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="ROBO STEAM Academy — 레고 에듀케이션 공식 교구로 배우는 STEAM 로봇코딩 전문 교육기관. WRO, FLL, RoboCup 수상 실적."/>
+<meta property="og:title" content="ROBO STEAM Academy — 생각의 크기를 키우다"/>
+<meta property="og:type" content="website"/>
+<title>ROBO STEAM Academy — 생각의 크기를 키우다</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ━━━━━━━━━━━━━━━━ RESET ━━━━━━━━━━━━━━━━ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans KR",sans-serif;background:#fff;color:#222;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+
+/* ━━━━━━━━━━━━━━━━ TOKENS ━━━━━━━━━━━━━━━━ */
+:root{
+  --y:#FFD600; --yd:#F0C800; --o:#FF6B00;
+  --bk:#111; --wh:#fff;
+  --g:#f8f8f8; --g2:#f0f0f0; --bd:#e8e8e8;
+  --t1:#222; --t2:#555; --t3:#999;
+  --r:12px; --rl:20px;
+}
+
+/* ━━━━━━━━━━━━━━━━ NAV ━━━━━━━━━━━━━━━━ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;background:#fff;border-bottom:3px solid var(--y);
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+.nav-logo img{height:56px;width:auto;object-fit:contain}
+.nav-links{display:flex;list-style:none;gap:0}
+.nav-links a{
+  font-size:13px;font-weight:700;color:#333;padding:8px 14px;
+  border-bottom:3px solid transparent;transition:color .18s,border-color .18s;
+}
+.nav-links a:hover{color:var(--o);border-bottom-color:var(--o)}
+.nav-right{display:flex;gap:8px;align-items:center}
+.nav-btn{
+  font-size:13px;font-weight:900;background:var(--y);color:var(--bk);
+  border:none;border-radius:6px;padding:9px 18px;
+  transition:background .18s,transform .12s;white-space:nowrap;
+}
+.nav-btn:hover{background:var(--yd);transform:translateY(-1px)}
+
+/* 햄버거 */
+.nav-burger{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;padding:4px;
+}
+.nav-burger span{display:block;width:22px;height:2px;background:#333;border-radius:2px;transition:.25s}
+.mobile-nav{
+  display:none;position:fixed;top:64px;left:0;right:0;z-index:490;
+  background:#fff;border-bottom:2px solid var(--y);
+  padding:12px 20px 20px;flex-direction:column;gap:0;
+  box-shadow:0 8px 24px rgba(0,0,0,.1);
+}
+.mobile-nav.open{display:flex}
+.mobile-nav a{
+  font-size:15px;font-weight:700;color:#333;padding:13px 4px;
+  border-bottom:1px solid var(--g2);
+}
+.mobile-nav a:last-child{border-bottom:none;color:var(--o)}
+
+/* ━━━━━━━━━━━━━━━━ HERO SLIDER ━━━━━━━━━━━━━━━━ */
+.hero{
+  margin-top:64px;position:relative;overflow:hidden;
+  height:calc(100vh - 64px - 80px);min-height:420px;background:#0a0a0a;
+}
+.slides-wrap{display:flex;width:300%;height:100%;transition:transform .6s cubic-bezier(.77,0,.175,1)}
+.slide{width:33.333%;height:100%;position:relative;flex-shrink:0}
+.slide img{
+  width:100%;height:100%;
+  object-fit:contain;object-position:center;
+  display:block;
+}
+.slide-bg1{background:#0a0a0a}
+.slide-bg2{background:#0a0a0a}
+.slide-bg3{background:#111008}
+.hero-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:10;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.hero-arrow:hover{background:rgba(255,255,255,.28)}
+.hero-prev{left:16px}
+.hero-next{right:16px}
+.hero-dots{
+  position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;z-index:10;
+}
+.hero-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(255,255,255,.35);border:none;padding:0;
+  transition:background .2s,transform .2s;
+}
+.hero-dot.on{background:#fff;transform:scale(1.3)}
+
+/* ━━━━━━━━━━━━━━━━ KPI BAR ━━━━━━━━━━━━━━━━ */
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);background:var(--y);border-bottom:3px solid var(--yd)}
+.kpi-cell{padding:22px 16px;text-align:center;border-right:1px solid rgba(0,0,0,.08)}
+.kpi-cell:last-child{border-right:none}
+.kpi-n{font-family:"Montserrat",sans-serif;font-size:30px;font-weight:900;color:var(--bk);letter-spacing:-.03em;line-height:1}
+.kpi-l{margin-top:4px;font-size:12px;font-weight:700;color:rgba(0,0,0,.55)}
+
+/* ━━━━━━━━━━━━━━━━ SECTION ━━━━━━━━━━━━━━━━ */
+.sec{padding:88px 40px}
+.si{max-width:1100px;margin:0 auto}
+.tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--o);
+  margin-bottom:12px;
+}
+.tag::before{content:"";width:22px;height:3px;background:var(--o);border-radius:2px}
+h2.tit{font-size:clamp(26px,3.5vw,42px);font-weight:900;letter-spacing:-.02em;line-height:1.15;color:var(--bk)}
+h2.tit em{font-style:normal;color:var(--o)}
+.lead{margin-top:12px;font-size:16px;font-weight:300;color:var(--t2);line-height:1.75;max-width:540px}
+.sec-c .lead{margin-left:auto;margin-right:auto}
+.sec-c{text-align:center}
+
+/* reveal */
+.r{opacity:0;transform:translateY(20px);transition:opacity .55s,transform .55s}
+.r.on{opacity:1;transform:none}
+.r.d1{transition-delay:.07s}.r.d2{transition-delay:.14s}.r.d3{transition-delay:.21s}
+
+/* ━━━━━━━━━━━━━━━━ ABOUT ━━━━━━━━━━━━━━━━ */
+.about{background:var(--g);border-top:1px solid var(--bd)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.about-img{border-radius:var(--rl);overflow:hidden;aspect-ratio:4/3}
+.about-img img{width:100%;height:100%;object-fit:cover}
+.about-txt{font-size:15px;font-weight:300;line-height:1.9;color:var(--t2);margin-top:16px}
+.about-txt strong{color:var(--bk);font-weight:700}
+.about-nums{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+.anum{background:#fff;border-radius:var(--r);padding:18px 16px;border:1px solid var(--bd)}
+.anum-n{font-family:"Montserrat",sans-serif;font-size:26px;font-weight:900;color:var(--o);letter-spacing:-.03em}
+.anum-l{font-size:12px;font-weight:700;color:var(--t3);letter-spacing:.04em;margin-top:2px}
+
+/* ━━━━━━━━━━━━━━━━ CURRICULUM ━━━━━━━━━━━━━━━━ */
+.curri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.ccard{
+  border:2px solid var(--bd);border-radius:var(--rl);overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+}
+.ccard:hover{border-color:var(--y);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
+.cthumb{
+  height:140px;display:flex;align-items:center;justify-content:center;
+  font-size:44px;position:relative;overflow:hidden;
+}
+.ct1{background:linear-gradient(135deg,#fff8dc,#ffd600)}
+.ct2{background:linear-gradient(135deg,#e8f5e9,#66bb6a)}
+.ct3{background:linear-gradient(135deg,#fce4ec,#f06292)}
+.ct4{background:linear-gradient(135deg,#fff3e0,#ffa726)}
+.ct5{background:linear-gradient(135deg,#ede7f6,#9575cd)}
+.ct6{background:linear-gradient(135deg,#e3f2fd,#42a5f5)}
+.cnum{position:absolute;top:10px;right:12px;font-family:"Montserrat",sans-serif;font-size:11px;font-weight:900;letter-spacing:.08em;color:rgba(0,0,0,.22)}
+.cbody{padding:22px 20px 18px;flex:1;display:flex;flex-direction:column;gap:8px}
+.clevel{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:5px;background:rgba(255,214,0,.15);color:#8a6800;width:fit-content}
+.ctit{font-size:16px;font-weight:900;color:var(--bk);letter-spacing:-.01em}
+.cdesc{font-size:13px;font-weight:300;color:var(--t2);line-height:1.7;flex:1}
+.cfoot{padding:12px 20px;border-top:1px solid var(--bd);display:flex;justify-content:flex-end}
+.cmore{font-size:13px;font-weight:700;color:var(--o);display:flex;align-items:center;gap:4px;transition:gap .18s}
+.cmore:hover{gap:8px}
+
+/* ━━━━━━━━━━━━━━━━ PHILOSOPHY ━━━━━━━━━━━━━━━━ */
+.phil{background:var(--bk);padding:0;overflow:hidden}
+.phil-row{display:grid;grid-template-columns:1fr 1fr;min-height:480px}
+.phil-row.flip .pcopy{order:2}.phil-row.flip .pvis{order:1}
+.pvis{position:relative;overflow:hidden;min-height:360px}
+.pvis img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.pvis-dim{position:absolute;inset:0;background:rgba(0,0,0,.25)}
+.pcopy{padding:64px 56px;display:flex;flex-direction:column;justify-content:center;background:var(--bk)}
+.pnum{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--y);margin-bottom:14px}
+.ptit{font-size:clamp(22px,2.4vw,34px);font-weight:900;letter-spacing:-.02em;line-height:1.2;color:#fff;margin-bottom:18px}
+.ptit em{font-style:normal;color:var(--y)}
+.pbody{font-size:14px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.9}
+.pbody strong{color:#fff;font-weight:600}
+
+/* ━━━━━━━━━━━━━━━━ FEATURES ━━━━━━━━━━━━━━━━ */
+.feat{background:var(--g)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.fcard{background:#fff;border-radius:var(--rl);padding:32px 28px;border:1px solid var(--bd);transition:border-color .2s,box-shadow .2s}
+.fcard:hover{border-color:var(--y);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.fcard.wide{grid-column:span 2}
+.ficon{font-size:34px;margin-bottom:18px}
+.fnum{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.ftit{font-size:19px;font-weight:900;color:var(--bk);letter-spacing:-.01em;margin-bottom:8px}
+.fdesc{font-size:14px;font-weight:300;color:var(--t2);line-height:1.75}
+.ftag{display:inline-block;margin-top:14px;font-size:11px;font-weight:700;letter-spacing:.06em;background:rgba(255,107,0,.08);color:var(--o);padding:4px 12px;border-radius:5px}
+
+/* ━━━━━━━━━━━━━━━━ PROCESS ━━━━━━━━━━━━━━━━ */
+.proc-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:2px solid var(--bd);border-radius:var(--rl);overflow:hidden;
+}
+.pstep{
+  padding:36px 26px;display:flex;flex-direction:column;gap:12px;
+  background:#fff;position:relative;transition:background .2s;
+}
+.pstep:hover{background:var(--g)}
+.pstep+.pstep{border-left:1px solid var(--bd)}
+.pstep::after{content:"";position:absolute;top:0;left:0;right:0;height:4px}
+.pstep:nth-child(1)::after{background:var(--y)}
+.pstep:nth-child(2)::after{background:#34c759}
+.pstep:nth-child(3)::after{background:var(--o)}
+.pstep:nth-child(4)::after{background:#9575cd}
+.pstep-n{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+.pstep-i{font-size:28px}
+.pstep-t{font-size:15px;font-weight:900;color:var(--bk);line-height:1.3}
+.pstep-d{font-size:13px;font-weight:300;color:var(--t2);line-height:1.7}
+
+/* ━━━━━━━━━━━━━━━━ AWARDS ━━━━━━━━━━━━━━━━ */
+.awards{background:var(--bk);padding:88px 40px}
+.awards .tag{color:var(--y)}.awards .tag::before{background:var(--y)}
+.awards h2.tit{color:#fff}.awards h2.tit em{color:var(--y)}
+.awards .lead{color:rgba(255,255,255,.45)}
+.ytabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:40px}
+.ytab{
+  font-family:"Montserrat",sans-serif;font-size:12px;font-weight:800;letter-spacing:.08em;
+  color:rgba(255,255,255,.4);background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:8px 18px;
+  transition:all .18s;
+}
+.ytab:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+.ytab.on{color:var(--bk);background:var(--y);border-color:var(--y)}
+.apanel{display:none}.apanel.on{display:block}
+.ablock{border-bottom:1px solid rgba(255,255,255,.06);padding:34px 0}
+.ablock:last-child{border-bottom:none}
+.ahead{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.alogo{
+  width:42px;height:42px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
+}
+.al-y{background:rgba(255,214,0,.15)}.al-g{background:rgba(52,199,89,.15)}
+.al-r{background:rgba(239,68,68,.15)}.al-b{background:rgba(41,182,246,.15)}
+.aname{font-size:16px;font-weight:900;color:#fff}
+.asub{font-size:12px;color:rgba(255,255,255,.35);margin-top:2px}
+.acards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.acard{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:18px;transition:background .2s;
+}
+.acard:hover{background:rgba(255,255,255,.08)}
+.amd{font-size:20px;margin-bottom:8px}
+.apl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.ag{color:var(--y)}.as{color:#94a3b8}.ab{color:#cd7c2f}.asp{color:#60a5fa}
+.atit{font-size:13px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:5px}
+.actr{font-size:11px;color:rgba(255,255,255,.35)}
+.atotal{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;
+  margin-top:48px;
+}
+.atc{padding:24px 16px;text-align:center;background:rgba(255,255,255,.02)}
+.atn{font-family:"Montserrat",sans-serif;font-size:38px;font-weight:900;color:var(--y);letter-spacing:-.04em;line-height:1}
+.atl{margin-top:6px;font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.06em;text-transform:uppercase}
+
+/* ━━━━━━━━━━━━━━━━ GALLERY ━━━━━━━━━━━━━━━━ */
+.gallery{background:#fff}
+.gtabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:36px}
+.gtab{
+  font-size:13px;font-weight:700;color:var(--t2);
+  background:#fff;border:1.5px solid var(--bd);border-radius:980px;padding:7px 16px;
+  transition:all .18s;
+}
+.gtab:hover{border-color:var(--o);color:var(--o)}
+.gtab.on{background:var(--o);color:#fff;border-color:var(--o)}
+.gfilter{display:flex;gap:8px;margin:16px 0 28px;flex-wrap:wrap}
+.gfbtn{
+  font-size:12px;font-weight:700;color:var(--t3);
+  background:none;border:1px solid var(--bd);border-radius:6px;padding:5px 12px;
+  transition:all .18s;
+}
+.gfbtn:hover{border-color:var(--bk);color:var(--bk)}
+.gfbtn.on{background:var(--bk);color:#fff;border-color:var(--bk)}
+.gpanel{display:none}.gpanel.on{display:block}
+.ggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gcard{
+  border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;
+  display:flex;flex-direction:column;background:#fff;
+  transition:box-shadow .25s,transform .22s;cursor:pointer;
+}
+.gcard:hover{box-shadow:0 8px 28px rgba(0,0,0,.1);transform:translateY(-3px)}
+.gthumb{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--g)}
+.gthumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gcard:hover .gthumb img{transform:scale(1.04)}
+.gbadge{
+  position:absolute;top:8px;left:8px;
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 9px;border-radius:5px;
+}
+.bp{background:rgba(0,113,227,.85);color:#fff}
+.bv{background:rgba(255,59,48,.85);color:#fff}
+.bw{background:rgba(52,199,89,.85);color:#fff}
+.gplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.gplay-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:16px;transition:transform .2s}
+.gcard:hover .gplay-btn{transform:scale(1.1)}
+.gtxt{width:100%;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;position:relative;overflow:hidden}
+.gbody{padding:14px 16px 12px}
+.gmeta{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.gctag{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--o);background:rgba(255,107,0,.08);padding:2px 7px;border-radius:4px}
+.gdate{font-size:11px;color:var(--t3);margin-left:auto}
+.gtitle{font-size:14px;font-weight:700;color:var(--bk);line-height:1.35;margin-bottom:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.gdesc{font-size:12px;font-weight:300;color:var(--t2);line-height:1.65;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.gempty{grid-column:span 3;text-align:center;padding:60px 0;font-size:14px;color:var(--t3)}
+.gmore-row{text-align:center;margin-top:28px}
+.gmore-btn{
+  font-size:14px;font-weight:700;color:var(--t2);
+  background:#fff;border:2px solid var(--bd);border-radius:980px;padding:11px 30px;
+  transition:border-color .2s,color .2s;
+}
+.gmore-btn:hover{border-color:var(--o);color:var(--o)}
+
+/* 라이트박스 */
+.lbox{display:none;position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px}
+.lbox.open{display:flex}
+.lbox-in{background:#fff;border-radius:var(--rl);width:100%;max-width:740px;max-height:90vh;overflow-y:auto;position:relative;animation:popIn .3s cubic-bezier(.16,1,.3,1) both}
+@keyframes popIn{from{opacity:0;transform:scale(.94) translateY(16px)}to{opacity:1;transform:none}}
+.lbox-x{position:absolute;top:12px;right:12px;z-index:10;width:30px;height:30px;border-radius:50%;background:var(--g);border:none;font-size:14px;color:var(--t2);display:flex;align-items:center;justify-content:center}
+.lbox-media{width:100%;aspect-ratio:16/9;background:#000;overflow:hidden}
+.lbox-media img{width:100%;height:100%;object-fit:cover}
+.lbox-media iframe{width:100%;height:100%;border:none}
+.lbox-body{padding:22px 26px 26px}
+.lbox-meta{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.lbox-tit{font-size:18px;font-weight:900;color:var(--bk);margin-bottom:8px}
+.lbox-desc{font-size:14px;font-weight:300;color:var(--t2);line-height:1.8}
+
+/* ━━━━━━━━━━━━━━━━ COMMUNITY ━━━━━━━━━━━━━━━━ */
+.comm{background:var(--g)}
+.ctabs{display:flex;gap:0;border-bottom:2px solid var(--bd);margin-top:40px}
+.ctab{
+  font-size:14px;font-weight:700;color:var(--t3);
+  background:none;border:none;padding:11px 22px;
+  border-bottom:3px solid transparent;margin-bottom:-2px;
+  transition:color .18s,border-color .18s;
+}
+.ctab:hover{color:var(--bk)}
+.ctab.on{color:var(--o);border-bottom-color:var(--o)}
+.cpanel{display:none}.cpanel.on{display:block}
+.nlist{background:#fff;border:1px solid var(--bd);border-top:none;border-radius:0 0 var(--r) var(--r);overflow:hidden}
+.nitem{
+  display:grid;grid-template-columns:64px 1fr auto;align-items:center;
+  gap:16px;padding:16px 24px;border-bottom:1px solid var(--bd);
+  transition:background .18s;text-decoration:none;color:inherit;
+}
+.nitem:last-child{border-bottom:none}
+.nitem:hover{background:var(--g)}
+.nbadge{display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;width:fit-content}
+.bnew{background:rgba(255,107,0,.1);color:var(--o)}
+.bgen{background:var(--g);color:var(--t3)}
+.ntit{font-size:14px;font-weight:500;color:var(--bk)}
+.ndate{font-size:12px;color:var(--t3);white-space:nowrap}
+.faqlist{background:#fff;border:1px solid var(--bd);border-top:none;border-radius:0 0 var(--r) var(--r);overflow:hidden}
+.faqitem{border-bottom:1px solid var(--bd)}
+.faqitem:last-child{border-bottom:none}
+.faqq{
+  width:100%;display:flex;align-items:center;gap:12px;padding:18px 24px;
+  background:none;border:none;text-align:left;transition:background .18s;
+}
+.faqq:hover{background:var(--g)}
+.faqitem.open .faqq{background:var(--g)}
+.faqq-q{font-size:15px;font-weight:900;color:var(--o);flex-shrink:0;width:18px}
+.faqq-t{font-size:14px;font-weight:700;color:var(--bk);flex:1}
+.faqq-a{font-size:12px;color:var(--t3);transition:transform .25s;flex-shrink:0}
+.faqitem.open .faqq-a{transform:rotate(180deg)}
+.faqa{display:none;padding:0 24px 18px 54px;font-size:14px;font-weight:300;line-height:1.8;color:var(--t2);background:var(--g)}
+.faqitem.open .faqa{display:block}
+.iqwrap{background:#fff;border:1px solid var(--bd);border-top:none;border-radius:0 0 var(--r) var(--r);display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.iqblk{padding:36px 32px}
+.iqblk+.iqblk{border-left:1px solid var(--bd)}
+.iqico{font-size:30px;margin-bottom:14px}
+.iqtit{font-size:19px;font-weight:900;color:var(--bk);margin-bottom:8px}
+.iqdesc{font-size:14px;font-weight:300;color:var(--t2);line-height:1.75;margin-bottom:24px}
+.iqform{display:flex;flex-direction:column;gap:10px}
+.iqrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.iqf{
+  width:100%;font-family:"Noto Sans KR",sans-serif;font-size:14px;font-weight:300;
+  color:var(--bk);background:var(--g);border:1.5px solid var(--bd);
+  border-radius:8px;padding:11px 13px;outline:none;
+  transition:border-color .18s,background .18s;
+}
+.iqf:focus{border-color:var(--o);background:#fff}
+.iqf::placeholder{color:var(--t3)}
+.iqsub{
+  font-family:"Noto Sans KR",sans-serif;font-size:14px;font-weight:900;
+  color:var(--bk);background:var(--y);border:none;border-radius:8px;padding:12px;
+  transition:background .18s,transform .12s;
+}
+.iqsub:hover{background:var(--yd);transform:translateY(-1px)}
+.clist{display:flex;flex-direction:column;gap:16px}
+.clb-l{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:4px}
+.clb-v{font-size:14px;font-weight:700;color:var(--bk)}
+.clb-s{font-size:12px;font-weight:300;color:var(--t2);margin-top:2px}
+
+/* ━━━━━━━━━━━━━━━━ CENTERS ━━━━━━━━━━━━━━━━ */
+.centers{background:#fff;border-top:1px solid var(--bd)}
+.cgrid{
+  margin-top:44px;display:grid;grid-template-columns:repeat(3,1fr);
+  border:2px solid var(--bd);border-radius:var(--rl);overflow:hidden;
+}
+.ctr{
+  padding:28px 20px;display:flex;flex-direction:column;gap:7px;
+  border-right:1px solid var(--bd);background:#fff;position:relative;
+  transition:background .22s;
+}
+.ctr:last-child{border-right:none}
+.ctr:hover{background:var(--g)}
+.ctr::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:var(--y);transform:scaleX(0);transform-origin:left;
+  transition:transform .3s;
+}
+.ctr:hover::before{transform:scaleX(1)}
+.cnum{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3)}
+.creg{font-size:11px;font-weight:700;color:var(--o);background:rgba(255,107,0,.08);padding:2px 8px;border-radius:5px;width:fit-content}
+.cnm{font-size:15px;font-weight:900;color:var(--bk);line-height:1.3}
+.cdiv{width:22px;height:2px;background:var(--bd);margin:3px 0}
+.cdes{font-size:12px;font-weight:300;color:var(--t2);line-height:1.65}
+.clnk{font-size:12px;font-weight:700;color:var(--o);margin-top:8px;transition:letter-spacing .2s}
+.clnk:hover{letter-spacing:.02em}
+
+/* ━━━━━━━━━━━━━━━━ CTA ━━━━━━━━━━━━━━━━ */
+.cta{background:var(--y);padding:96px 40px;text-align:center;position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(0,0,0,.04);pointer-events:none}
+.cta::after{content:"";position:absolute;bottom:-80px;left:-40px;width:260px;height:260px;border-radius:50%;background:rgba(0,0,0,.04);pointer-events:none}
+.cta-in{position:relative;z-index:1;max-width:620px;margin:0 auto}
+.cta-h{font-family:"Montserrat",sans-serif;font-size:clamp(32px,5vw,58px);font-weight:900;letter-spacing:-.04em;line-height:1.05;color:var(--bk);margin-bottom:14px}
+.cta-s{font-size:16px;font-weight:300;color:rgba(0,0,0,.6);line-height:1.75;margin-bottom:36px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-bk{display:inline-block;font-size:15px;font-weight:900;background:var(--bk);color:#fff;padding:14px 30px;border-radius:8px;transition:opacity .18s,transform .12s}
+.btn-bk:hover{opacity:.82;transform:translateY(-2px)}
+.btn-bk-o{display:inline-block;font-size:15px;font-weight:700;background:transparent;color:var(--bk);border:2px solid rgba(0,0,0,.25);padding:13px 30px;border-radius:8px;transition:border-color .18s,background .18s}
+.btn-bk-o:hover{border-color:var(--bk);background:rgba(0,0,0,.05)}
+.cta-note{margin-top:22px;font-size:12px;color:rgba(0,0,0,.4)}
+
+/* ━━━━━━━━━━━━━━━━ SNS BAR ━━━━━━━━━━━━━━━━ */
+.sns-bar{
+  background:var(--bk);padding:32px 40px;
+  display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;
+}
+.sns-lbl{font-size:13px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.06em;text-transform:uppercase}
+.sns-links{display:flex;gap:10px;flex-wrap:wrap}
+.sns-lnk{
+  font-size:13px;font-weight:700;color:rgba(255,255,255,.6);
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;padding:8px 16px;transition:background .18s,color .18s;
+}
+.sns-lnk:hover{background:rgba(255,255,255,.12);color:#fff}
+
+/* ━━━━━━━━━━━━━━━━ FOOTER ━━━━━━━━━━━━━━━━ */
+footer{background:var(--g);border-top:1px solid var(--bd);padding:52px 40px 36px}
+.ft{max-width:1100px;margin:0 auto}
+.ft-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:44px;padding-bottom:36px;border-bottom:1px solid var(--bd)}
+.ft-logo img{height:30px;width:auto;margin-bottom:12px}
+.ft-desc{font-size:12px;font-weight:300;color:var(--t3);line-height:1.75;max-width:210px}
+.ft-col-h{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t2);margin-bottom:12px}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ft-col a{font-size:13px;font-weight:300;color:var(--t3);transition:color .18s}
+.ft-col a:hover{color:var(--o)}
+.ft-bot{padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.ft-copy{font-size:12px;color:var(--t3)}
+.ft-soc{display:flex;gap:14px}
+.ft-soc a{font-size:12px;color:var(--t3);transition:color .18s}
+.ft-soc a:hover{color:var(--o)}
+
+/* ━━━━━━━━━━━━━━━━ MODAL ━━━━━━━━━━━━━━━━ */
+.moverlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px}
+.moverlay.open{display:flex}
+.mbox{background:#fff;border-radius:var(--rl);width:100%;max-width:580px;max-height:92vh;overflow-y:auto;position:relative;animation:popIn .3s cubic-bezier(.16,1,.3,1) both}
+.mhdr{padding:26px 28px 0;display:flex;align-items:flex-start;justify-content:space-between}
+.mclose{width:30px;height:30px;border-radius:50%;background:var(--g);border:none;font-size:14px;color:var(--t2);display:flex;align-items:center;justify-content:center;transition:background .18s}
+.mclose:hover{background:var(--bd)}
+.msteps{display:flex;align-items:center;padding:18px 28px 0}
+.msi{display:flex;align-items:center;gap:6px;flex:1}
+.msi:last-child{flex:0}
+.msdot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:var(--g);color:var(--t3);flex-shrink:0;transition:.3s}
+.msdot.on{background:var(--o);color:#fff}
+.msdot.done{background:#34c759;color:#fff}
+.msline{flex:1;height:2px;background:var(--bd);margin:0 3px}
+.msline.done{background:#34c759}
+.mbody{padding:22px 28px 28px}
+.spanel{display:none}.spanel.on{display:block}
+.stit{font-size:19px;font-weight:900;color:var(--bk);margin-bottom:6px}
+.sdesc{font-size:13px;font-weight:300;color:var(--t2);margin-bottom:18px;line-height:1.6}
+.scards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.scard{background:var(--g);border:1.5px solid var(--bd);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:7px}
+.sc-n{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3)}
+.sc-i{font-size:20px}
+.sc-t{font-size:13px;font-weight:700;color:var(--bk);line-height:1.3}
+.sc-d{font-size:12px;font-weight:300;color:var(--t2);line-height:1.6}
+.mbtns{display:flex;gap:10px;margin-top:8px}
+.mnext{flex:1;font-family:"Noto Sans KR",sans-serif;font-size:15px;font-weight:900;color:var(--bk);background:var(--y);border:none;border-radius:8px;padding:12px;transition:background .18s,transform .12s}
+.mnext:hover{background:var(--yd);transform:translateY(-1px)}
+.mback{font-family:"Noto Sans KR",sans-serif;font-size:15px;font-weight:400;color:var(--t2);background:var(--g);border:none;border-radius:8px;padding:12px 18px;transition:background .18s}
+.mback:hover{background:var(--bd)}
+.center-opt{display:flex;align-items:center;gap:11px;padding:12px 13px;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;transition:border-color .18s}
+.center-opt:hover{border-color:var(--o)}
+.mform{display:flex;flex-direction:column;gap:10px}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mgrp{display:flex;flex-direction:column}
+.mlbl{font-size:12px;font-weight:700;color:var(--t2);margin-bottom:4px}
+.mf{width:100%;font-family:"Noto Sans KR",sans-serif;font-size:14px;font-weight:300;color:var(--bk);background:var(--g);border:1.5px solid var(--bd);border-radius:8px;padding:11px 13px;outline:none;transition:border-color .18s,background .18s}
+.mf:focus{border-color:var(--o);background:#fff}
+.mf::placeholder{color:var(--t3)}
+.req{color:var(--o)}
+.mdone{text-align:center;padding:16px 0 8px}
+.mdone-i{font-size:48px;margin-bottom:12px}
+.mdone-t{font-size:20px;font-weight:900;color:var(--bk);margin-bottom:8px}
+.mdone-d{font-size:14px;font-weight:300;color:var(--t2);line-height:1.75}
+
+/* ━━━━━━━━━━━━━━━━ SCROLL TOP ━━━━━━━━━━━━━━━━ */
+#stbtn{
+  display:none;position:fixed;bottom:24px;right:24px;z-index:300;
+  width:42px;height:42px;border-radius:50%;
+  background:var(--y);color:var(--bk);border:none;
+  font-size:18px;font-weight:900;
+  box-shadow:0 4px 16px rgba(0,0,0,.2);
+  transition:opacity .2s,transform .2s;
+  align-items:center;justify-content:center;
+}
+
+/* ━━━━━━━━━━━━━━━━ MEDIA 960px ━━━━━━━━━━━━━━━━ */
+@media(max-width:960px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .nav-burger{display:flex}
+  .hero{min-height:400px}
+  .kpi{grid-template-columns:repeat(2,1fr)}
+  .sec{padding:64px 28px}
+  .awards{padding:64px 28px}
+  .about-grid{grid-template-columns:1fr;gap:32px}
+  .curri-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .feat-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .fcard.wide{grid-column:span 2}
+  .proc-grid{grid-template-columns:1fr 1fr}
+  .pstep+.pstep{border-left:none;border-top:1px solid var(--bd)}
+  .acards{grid-template-columns:1fr 1fr}
+  .atotal{grid-template-columns:1fr 1fr}
+  .ggrid{grid-template-columns:1fr 1fr}
+  .gempty{grid-column:span 2}
+  .iqwrap{grid-template-columns:1fr}
+  .iqblk+.iqblk{border-left:none;border-top:1px solid var(--bd)}
+  .cgrid{grid-template-columns:repeat(3,1fr)}
+  .ctr{border-right:none;border-bottom:1px solid var(--bd)}
+  .ft-top{grid-template-columns:1fr 1fr;gap:28px}
+  .phil-row{grid-template-columns:1fr}
+  .phil-row.flip .pcopy{order:2}.phil-row.flip .pvis{order:1}
+  .pcopy{padding:44px 28px}
+  .pvis{min-height:260px}
+  .cta{padding:72px 28px}
+  .sns-bar{padding:24px 20px;flex-direction:column;gap:14px;text-align:center}
+  .sns-links{justify-content:center}
+}
+
+/* ━━━━━━━━━━━━━━━━ MEDIA 600px ━━━━━━━━━━━━━━━━ */
+@media(max-width:600px){
+  nav{height:56px;padding:0 16px}
+  .nav-logo img{height:44px}
+  .nav-btn{font-size:12px;padding:7px 12px}
+  .mobile-nav{top:56px}
+  .hero{margin-top:56px;height:calc(100svh - 56px);min-height:300px}
+  .hero-arrow{display:none}
+  .hero-dots{bottom:14px}
+  .kpi{grid-template-columns:repeat(2,1fr)}
+  .kpi-n{font-size:22px}
+  .kpi-l{font-size:11px}
+  .kpi-cell{padding:16px 10px}
+  .sec{padding:48px 18px}
+  .awards{padding:48px 18px}
+  h2.tit{font-size:clamp(22px,7vw,32px)}
+  .about-grid{gap:24px}
+  .about-img{aspect-ratio:16/9;border-radius:12px}
+  .about-nums{grid-template-columns:1fr 1fr}
+  .curri-grid{grid-template-columns:1fr}
+  .cthumb{height:120px}
+  .feat-grid{grid-template-columns:1fr}
+  .fcard.wide{grid-column:span 1}
+  .proc-grid{grid-template-columns:1fr}
+  .acards{grid-template-columns:1fr}
+  .atotal{grid-template-columns:repeat(2,1fr)}
+  .atn{font-size:28px}
+  .ytabs{gap:5px}
+  .ytab{font-size:11px;padding:6px 12px}
+  .gtabs{gap:5px}
+  .gtab{font-size:12px;padding:5px 11px}
+  .ggrid{grid-template-columns:1fr}
+  .gempty{grid-column:span 1}
+  .ctab{padding:9px 13px;font-size:13px}
+  .nitem{grid-template-columns:52px 1fr;gap:10px;padding:12px 14px}
+  .ndate{display:none}
+  .faqq{padding:14px 16px}
+  .faqa{padding:0 16px 16px 46px}
+  .iqblk{padding:24px 18px}
+  .iqrow{grid-template-columns:1fr}
+  .cgrid{grid-template-columns:1fr 1fr}
+  .cdes{display:none}
+  .cnm{font-size:13px}
+  .cta{padding:56px 18px}
+  .cta-h{font-size:clamp(26px,8vw,40px)}
+  .cta-btns{flex-direction:column;align-items:center}
+  .btn-bk,.btn-bk-o{width:100%;text-align:center}
+  .ft-top{grid-template-columns:1fr}
+  .ft-col:not(:first-child){display:none}
+  .ft-bot{flex-direction:column;gap:6px}
+  .pcopy{padding:32px 18px}
+  .ptit{font-size:clamp(20px,6vw,28px)}
+  .pvis{min-height:200px}
+  .mrow{grid-template-columns:1fr}
+  .scards{grid-template-columns:1fr}
+  #stbtn{width:36px;height:36px;font-size:16px;bottom:18px;right:14px}
+}
+
+/* ━━━━━━━━━━━━━━━━ MEDIA 400px ━━━━━━━━━━━━━━━━ */
+@media(max-width:400px){
+  .cgrid{grid-template-columns:1fr}
+  .atotal{grid-template-columns:1fr 1fr}
+}
+</style>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCADbAZADASIAAhEBAxEB/8QAHQABAAMBAAMBAQAAAAAAAAAAAAYHCAUCAwQJAf/EADgQAAEDBAICAQMDAgQFBAMAAAEAAgMEBQYHERIIITETIkEUMlEJFRYjYXEYM0JSoRckJoE4drL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABgRAQEBAQEAAAAAAAAAAAAAAAABMRFh/9oADAMBAAIRAxEAPwD9QEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBEUE2hvXT2l6WKq2jsWyY6ZwHQU9VUA1NQCSOYoG8yyewR9rT8IKW808ggtd+1radiZfkmKajudXcW5ZdbFNUQPNSyBrqCnqJ6dhlhge/wCrz1cA5zQHcAArt+Ed7yO969yV8t+vN9wmjyitpMDut7+q6vrbIwM6SPklaHyxiUzNje/7i1vHpoaBWvkh5MWjdmjM813qXUO2MlmvVqlo6S7QYdUx24PceWyOkm6PDOGl3PT4/CleEebWsMPxiwY9s3B9lYJ/b7ZS0s9dfMRqWUTXMhaO31IBJwx3H2uIA4IJ4Cvg1QijuDbGwHZ1lZkWu8zs2SW13XmptlbHUMYSOer+hPR3Hy13Dh+QFIlAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERARFB9u7q1vozGo8p2VkH9upamcUlHDFBJUVNbUlpc2GCGJrnyPIafgcD5JA9oKv3tuLYl52HSeNHjw+kjzWuohcshyKoYJqbFLa89WyOZ8PqpPmON3wOryCHBSPUHij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4J5V4IgrvBLBvKO/uve0tiY3VUUVM+ngsuOWF9JTySEtIqJpqiaaYuADg2NhY0A8u7njir6TwV1Vd8Iuts2O6tv2XZM6srr7kEFfWUbKm5VMjpHVLKSOcQt+m4sDG9eA2GMHnhaURBSOW6g2/dotU3+0bEx2XL9eR1H66vutnnlpbrLPQmlkeYYp2PYT2c/kSfu/HHpSLXmpbzZM1ue19jZdDk2aXO3xWeOakt/6CgtluZIZf0tLB3kfw6Vxe+SWR739Yxy1rGtFmIgoLVeqPIjVNhocIsue66nx2juVXUj9VjtfJW/Qqa2Wpkb9RtaxheBM5rT0A9DlTO+aSsOWbIybL8ujo7vZcmw6ixGqstTTdmPjhqqud73OJ9hwqmgADkFnPPPHFlIgr6xakose3JeNpWypgp6W54ta8bjtcNOWNh/Rz1UgkaQ7qGllRGwMa0AfTJ59r+0Gr5KHe953G24wuiu2LUOPmkEAbIySnqqiYyF4H3BwnaOD7HT5IIDbARAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQf/2Q==" alt="ROBO STEAM Academy"/></a>
+  <ul class="nav-links">
+    <li><a href="#about">소개</a></li>
+    <li><a href="#curriculum">교육과정</a></li>
+    <li><a href="#awards">수상실적</a></li>
+    <li><a href="#gallery">갤러리</a></li>
+    <li><a href="#centers">센터찾기</a></li>
+    <li><a href="#community">커뮤니티</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="openModal()">무료 체험 신청</button>
+    <button class="nav-burger" onclick="toggleNav()" aria-label="메뉴">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about" onclick="closeNav()">소개</a>
+  <a href="#curriculum" onclick="closeNav()">교육과정</a>
+  <a href="#awards" onclick="closeNav()">수상실적</a>
+  <a href="#gallery" onclick="closeNav()">갤러리</a>
+  <a href="#centers" onclick="closeNav()">센터찾기</a>
+  <a href="#community" onclick="closeNav()">커뮤니티</a>
+  <a href="#" onclick="openModal();closeNav();return false;">무료 체험 신청 →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="slides-wrap" id="slidesWrap">
+    <div class="slide slide-bg1"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0Ij4KCjwhLS0g67Cw6rK9IC0tPgo8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzBhMGEwYSIvPgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYiIGZpbGw9IiNGRkQ2MDAiLz4KCjwhLS0g67Cw6rK9IOyepeyLnSAtLT4KPGNpcmNsZSBjeD0iNjgwIiBjeT0iMTIwIiByPSIyODAiIGZpbGw9IiMwMDRCOEQiIG9wYWNpdHk9IjAuMTIiLz4KPGNpcmNsZSBjeD0iMTAwIiBjeT0iNDIwIiByPSIyMDAiIGZpbGw9IiNGRkQ2MDAiIG9wYWNpdHk9IjAuMDQiLz4KPGxpbmUgeDE9IjU2MCIgeTE9IjAiIHgyPSI4MDAiIHkyPSI1MDAiIHN0cm9rZT0iI0ZGRDYwMCIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjA2Ii8+CjxsaW5lIHgxPSI2MjAiIHkxPSIwIiB4Mj0iODAwIiB5Mj0iMzQwIiBzdHJva2U9IiMwMDRCOEQiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC4wOCIvPgoKPCEtLSDrqZTsnbgg67iM656c65Oc66qFICjsg4Hri6ggMS8zKSAtLT4KPHRleHQgeD0iNDAwIiB5PSIxNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSI2OCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI2ZmZmZmZiIgbGV0dGVyLXNwYWNpbmc9Ii0xIj5ST0JPIFNURUFNPC90ZXh0Pgo8dGV4dCB4PSI0MDAiIHk9IjIzMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBLUixzYW5zLXNlcmlmIiBmb250LXNpemU9IjY4IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjRkZENjAwIiBsZXR0ZXItc3BhY2luZz0iLTEiPkFDQURFTVk8L3RleHQ+Cgo8IS0tIOq1rOu2hOyEoCAtLT4KPGxpbmUgeDE9IjI4MCIgeTE9IjI1NCIgeDI9IjUyMCIgeTI9IjI1NCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMTIpIiBzdHJva2Utd2lkdGg9IjEiLz4KCjwhLS0g7Iqs66Gc6rG0IOyYgeyWtCAtLT4KPHRleHQgeD0iNDAwIiB5PSIyOTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9IjMwMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIiBsZXR0ZXItc3BhY2luZz0iMC41Ij5XZSBlbXBvd2VyIGN1cmlvc2l0eSw8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMzE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIEtSLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSIzMDAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC42KSIgbGV0dGVyLXNwYWNpbmc9IjAuNSI+Y3JlYXRpdml0eSBhbmQgcHJvYmxlbSBzb2x2aW5nLjwvdGV4dD4KCjwhLS0g7Iqs66Gc6rG0IO2VnOq1reyWtCAtLT4KPHRleHQgeD0iNDAwIiB5PSIzNTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjI4KSI+7Jqw66as64qUIO2YuOq4sOyLrOqzvCDssL3snZjroKUsIOusuOygnO2VtOqysOugpeydhCDtgqTsm4Hri4jri6QuPC90ZXh0PgoKPCEtLSDqtazrtoTshKAyIC0tPgo8bGluZSB4MT0iMzAwIiB5MT0iMzcyIiB4Mj0iNTAwIiB5Mj0iMzcyIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNykiIHN0cm9rZS13aWR0aD0iMSIvPgoKPCEtLSDtgqTsm4zrk5wgM+qwnCAtLT4KPHRleHQgeD0iMjAwIiB5PSI0MTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0icmdiYSgyNTUsMjE0LDAsMC41NSkiIGxldHRlci1zcGFjaW5nPSIxIj7wn6SWICBST0JPVDwvdGV4dD4KPHRleHQgeD0iNDAwIiB5PSI0MTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0icmdiYSgyNTUsMjE0LDAsMC41NSkiIGxldHRlci1zcGFjaW5nPSIxIj7wn5KhICBURUNITk9MT0dZPC90ZXh0Pgo8dGV4dCB4PSI2MDAiIHk9IjQxMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBLUixzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJyZ2JhKDI1NSwyMTQsMCwwLjU1KSIgbGV0dGVyLXNwYWNpbmc9IjEiPvCfmIogIEZSSUVORExZPC90ZXh0PgoKPCEtLSDtlZjri6gg7Jes67CxIOyepeyLnSAtLT4KPGxpbmUgeDE9IjE2MCIgeTE9IjQ0MCIgeDI9IjY0MCIgeTI9IjQ0MCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjQsOCIvPgo8dGV4dCB4PSI0MDAiIHk9IjQ2OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBLUixzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMTIpIiBsZXR0ZXItc3BhY2luZz0iNCI+Uk9CTyBTVEVBTSBBQ0FERU1ZPC90ZXh0PgoKPC9zdmc+" alt="ROBO STEAM 메인"/></div>
+    <div class="slide slide-bg2"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0Ij4KCjwhLS0g67Cw6rK9IC0tPgo8cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzBhMGEwYSIvPgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iODAwIiBoZWlnaHQ9IjYiIGZpbGw9IiNGRkQ2MDAiLz4KCjwhLS0g67Cw6rK9IOyepeyLnSAtLT4KPGNpcmNsZSBjeD0iNjgwIiBjeT0iMTAwIiByPSIyNjAiIGZpbGw9IiNGRkQ2MDAiIG9wYWNpdHk9IjAuMDUiLz4KPGNpcmNsZSBjeD0iMTIwIiBjeT0iNDIwIiByPSIyMDAiIGZpbGw9IiNGRjZCMDAiIG9wYWNpdHk9IjAuMDUiLz4KPGxpbmUgeDE9IjU4MCIgeTE9IjAiIHgyPSI4MDAiIHkyPSI0ODAiIHN0cm9rZT0iI0ZGRDYwMCIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjA1Ii8+Cgo8IS0tIOyDgeuLqCDrsLDsp4AgLS0+CjxyZWN0IHg9IjMzMCIgeT0iMjgiIHdpZHRoPSIxNDAiIGhlaWdodD0iMzAiIHJ4PSIxNSIgZmlsbD0iI0ZGRDYwMCIvPgo8dGV4dCB4PSI0MDAiIHk9IjQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIEtSLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiMxMTEiPjIwMjYg7Iug7J6F7IOdIOuqqOynkTwvdGV4dD4KCjwhLS0g66mU7J24IO2XpOuTnOudvOyduCAtLT4KPHRleHQgeD0iNDAwIiB5PSIxNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5MCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI2ZmZmZmZiIgbGV0dGVyLXNwYWNpbmc9Ii0yIj7si6DsnoXsg508L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMjUyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIEtSLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iOTAiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNGRkQ2MDAiIGxldHRlci1zcGFjaW5nPSItMiI+66qo7KeRPC90ZXh0PgoKPCEtLSDqtazrtoTshKAgLS0+CjxsaW5lIHgxPSIyNjAiIHkxPSIyNzIiIHgyPSI1NDAiIHkyPSIyNzIiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIiBzdHJva2Utd2lkdGg9IjEiLz4KCjwhLS0g7ISc67iMIOy5tO2UvCAtLT4KPHRleHQgeD0iNDAwIiB5PSIzMDIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjMwMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjU1KSI+66CI6rOgIOyXkOuTgOy8gOydtOyFmOydmCDroZzrtIfsvZTrlKkg6rWQ6rWs7JmAIO2VqOq7mDwvdGV4dD4KPHRleHQgeD0iNDAwIiB5PSIzMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjMwMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjU1KSI+64W866as7KCBIOyCrOqzoOyZgCDssL3snZjroKXsnYQg6riw66W064qUIOuvuOuemCDqtZDsnKE8L3RleHQ+Cgo8IS0tIOq1rOu2hOyEoDIgLS0+CjxsaW5lIHgxPSIzMDAiIHkxPSIzNDQiIHgyPSI1MDAiIHkyPSIzNDQiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA3KSIgc3Ryb2tlLXdpZHRoPSIxIi8+Cgo8IS0tIOu2iOumvyDsoJXrs7QgMuykhCAo6rCA7Jq0642wIOygleugrCkgLS0+CjxjaXJjbGUgY3g9IjMwMyIgY3k9IjM3MiIgcj0iNiIgZmlsbD0iI0ZGRDYwMCIvPgo8dGV4dCB4PSIzMTkiIHk9IjM3OCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LWZhbWlseT0iTm90byBTYW5zIEtSLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44KSI+64yA7IOBIDogNeyEuCB+IOqzoOuTse2VmeyDnTwvdGV4dD4KCjxjaXJjbGUgY3g9IjMwMyIgY3k9IjQwNCIgcj0iNiIgZmlsbD0iI0ZGNkIwMCIvPgo8dGV4dCB4PSIzMTkiIHk9IjQxMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBmb250LWZhbWlseT0iTm90byBTYW5zIEtSLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC44KSI+66y066OMIOyytO2XmOyImOyXhSDsi6Dssq0g6rCA64qlPC90ZXh0PgoKPCEtLSBDVEEg67KE7Yq8IC0tPgo8YSBocmVmPSIjIiBvbmNsaWNrPSJvcGVuTW9kYWwoKSI+CiAgPHJlY3QgeD0iMjgwIiB5PSI0MzAiIHdpZHRoPSIyNDAiIGhlaWdodD0iNDIiIHJ4PSI4IiBmaWxsPSIjRkZENjAwIi8+CiAgPHRleHQgeD0iNDAwIiB5PSI0NTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iIzExMSI+66y066OMIOyytO2XmOyImOyXhSDsi6Dssq0g4oaSPC90ZXh0Pgo8L2E+Cgo8L3N2Zz4=" alt="2026 신입생 모집"/></div>
+    <div class="slide slide-bg3"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0Ij4KPHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI1MDAiIGZpbGw9IiMxMTEwMDgiLz4KPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2IiBmaWxsPSIjRkZENjAwIi8+CjxjaXJjbGUgY3g9IjQwMCIgY3k9IjIyMCIgcj0iMzIwIiBmaWxsPSIjRkZENjAwIiBvcGFjaXR5PSIwLjAzIi8+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjQyMCIgcj0iMTgwIiBmaWxsPSIjRkY2QjAwIiBvcGFjaXR5PSIwLjA0Ii8+CjxyZWN0IHg9IjMyMCIgeT0iNDgiIHdpZHRoPSIxNjAiIGhlaWdodD0iMzQiIHJ4PSI1IiBmaWxsPSIjRkZENjAwIi8+Cjx0ZXh0IHg9IjQwMCIgeT0iNzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzExMSI+MjAyNX4yMDI2IOyImOyDgSDsi6TsoIE8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMTcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIEtSLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODQiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiIGxldHRlci1zcGFjaW5nPSItMiI+64yA7ZqMIOyImOyDgTwvdGV4dD4KPHRleHQgeD0iNDAwIiB5PSIyNjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSI4NCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0ZGRDYwMCIgbGV0dGVyLXNwYWNpbmc9Ii0yIj7si6TsoIE8L3RleHQ+Cjx0ZXh0IHg9IjQwMCIgeT0iMjk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIEtSLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkiIGZvbnQtd2VpZ2h0PSIzMDAiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC40NSkiPkZMTCDCtyBSb2JvQ3VwIMK3IFJvYm90ZXggwrcgUm9ib1JBVkU8L3RleHQ+CjxsaW5lIHgxPSIxNjAiIHkxPSIzMzYiIHgyPSI2NDAiIHkyPSIzMzYiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA4KSIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxyZWN0IHg9IjEzMCIgeT0iMzU0IiB3aWR0aD0iMTU1IiBoZWlnaHQ9IjEyMCIgcng9IjEwIiBmaWxsPSJyZ2JhKDI1NSwyMTQsMCwwLjA4KSIvPgo8cmVjdCB4PSIxMzAiIHk9IjM1NCIgd2lkdGg9IjE1NSIgaGVpZ2h0PSI1IiByeD0iMi41IiBmaWxsPSIjRkZENjAwIi8+Cjx0ZXh0IHg9IjIwNyIgeT0iNDI0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iTm90byBTYW5zIEtSLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iNTgiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNGRkQ2MDAiPjEwKzwvdGV4dD4KPHRleHQgeD0iMjA3IiB5PSI0NTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNyIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjQpIj7shLjqs4Qg64yA7ZqMIOywuOqwgDwvdGV4dD4KPHJlY3QgeD0iMzIyIiB5PSIzNTQiIHdpZHRoPSIxNTUiIGhlaWdodD0iMTIwIiByeD0iMTAiIGZpbGw9InJnYmEoMjU1LDEwNywwLDAuMDgpIi8+CjxyZWN0IHg9IjMyMiIgeT0iMzU0IiB3aWR0aD0iMTU1IiBoZWlnaHQ9IjUiIHJ4PSIyLjUiIGZpbGw9IiNGRjZCMDAiLz4KPHRleHQgeD0iMzk5IiB5PSI0MjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSI1OCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0ZGNkIwMCI+NTArPC90ZXh0Pgo8dGV4dCB4PSIzOTkiIHk9IjQ1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBLUixzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNCkiPuy0nSDsiJjsg4Eg7Zqf7IiYPC90ZXh0Pgo8cmVjdCB4PSI1MTQiIHk9IjM1NCIgd2lkdGg9IjE1NSIgaGVpZ2h0PSIxMjAiIHJ4PSIxMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA0KSIvPgo8cmVjdCB4PSI1MTQiIHk9IjM1NCIgd2lkdGg9IjE1NSIgaGVpZ2h0PSI1IiByeD0iMi41IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMikiLz4KPHRleHQgeD0iNTkxIiB5PSI0MjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSI1OCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjc1KSI+MjArPC90ZXh0Pgo8dGV4dCB4PSI1OTEiIHk9IjQ1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ik5vdG8gU2FucyBLUixzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNCkiPuyCrOqzoOugpS/svZTrlKkv67Cc66qF64yA7ZqMIOyImOyDgTwvdGV4dD4KPHRleHQgeD0iNDAwIiB5PSI0OTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJOb3RvIFNhbnMgS1Isc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA4KSIgbGV0dGVyLXNwYWNpbmc9IjMiPkxFQVJOU1RFQU08L3RleHQ+Cjwvc3ZnPg==" alt="2026 수상 실적"/></div>
+  </div>
+  <button class="hero-arrow hero-prev" onclick="moveSlide(-1)">&#8249;</button>
+  <button class="hero-arrow hero-next" onclick="moveSlide(1)">&#8250;</button>
+  <div class="hero-dots">
+    <button class="hero-dot on" onclick="goSlide(0)"></button>
+    <button class="hero-dot" onclick="goSlide(1)"></button>
+    <button class="hero-dot" onclick="goSlide(2)"></button>
+  </div>
+</section>
+
+<!-- KPI -->
+<div class="kpi r">
+  <div class="kpi-cell"><div class="kpi-n">30<sup style="font-size:.5em">+</sup></div><div class="kpi-l">최근 2년 대회 참가</div></div>
+  <div class="kpi-cell"><div class="kpi-n">98<sup style="font-size:.5em">%</sup></div><div class="kpi-l">수강생 만족도</div></div>
+  <div class="kpi-cell"><div class="kpi-n">50<sup style="font-size:.5em">+</sup></div><div class="kpi-l">최근 2년 대회 수상</div></div>
+  <div class="kpi-cell"><div class="kpi-n">10<sup style="font-size:.5em">+</sup></div><div class="kpi-l">평균 운영 연수</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="sec about" id="about">
+  <div class="si">
+    <div class="about-grid r">
+      <div class="about-img"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCADbAZADASIAAhEBAxEB/8QAHQABAAMBAAMBAQAAAAAAAAAAAAYHCAUCAwQJAf/EADgQAAEDBAICAQMDAgQFBAMAAAEAAgMEBQYHERIIITETIkEUMlEJFRYjYXEYM0JSoRckJoE4drL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABgRAQEBAQEAAAAAAAAAAAAAAAABMRFh/9oADAMBAAIRAxEAPwD9QEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBEUE2hvXT2l6WKq2jsWyY6ZwHQU9VUA1NQCSOYoG8yyewR9rT8IKW808ggtd+1radiZfkmKajudXcW5ZdbFNUQPNSyBrqCnqJ6dhlhge/wCrz1cA5zQHcAArt+Ed7yO969yV8t+vN9wmjyitpMDut7+q6vrbIwM6SPklaHyxiUzNje/7i1vHpoaBWvkh5MWjdmjM813qXUO2MlmvVqlo6S7QYdUx24PceWyOkm6PDOGl3PT4/CleEebWsMPxiwY9s3B9lYJ/b7ZS0s9dfMRqWUTXMhaO31IBJwx3H2uIA4IJ4Cvg1QijuDbGwHZ1lZkWu8zs2SW13XmptlbHUMYSOer+hPR3Hy13Dh+QFIlAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERARFB9u7q1vozGo8p2VkH9upamcUlHDFBJUVNbUlpc2GCGJrnyPIafgcD5JA9oKv3tuLYl52HSeNHjw+kjzWuohcshyKoYJqbFLa89WyOZ8PqpPmON3wOryCHBSPUHij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4J5V4IgrvBLBvKO/uve0tiY3VUUVM+ngsuOWF9JTySEtIqJpqiaaYuADg2NhY0A8u7njir6TwV1Vd8Iuts2O6tv2XZM6srr7kEFfWUbKm5VMjpHVLKSOcQt+m4sDG9eA2GMHnhaURBSOW6g2/dotU3+0bEx2XL9eR1H66vutnnlpbrLPQmlkeYYp2PYT2c/kSfu/HHpSLXmpbzZM1ue19jZdDk2aXO3xWeOakt/6CgtluZIZf0tLB3kfw6Vxe+SWR739Yxy1rGtFmIgoLVeqPIjVNhocIsue66nx2juVXUj9VjtfJW/Qqa2Wpkb9RtaxheBM5rT0A9DlTO+aSsOWbIybL8ujo7vZcmw6ixGqstTTdmPjhqqud73OJ9hwqmgADkFnPPPHFlIgr6xakose3JeNpWypgp6W54ta8bjtcNOWNh/Rz1UgkaQ7qGllRGwMa0AfTJ59r+0Gr5KHe953G24wuiu2LUOPmkEAbIySnqqiYyF4H3BwnaOD7HT5IIDbARAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQf/2Q==" alt="ROBO STEAM Academy" style="object-fit:contain;background:#f8f8f8;"/></div>
+      <div>
+        <div class="tag">About ROBO STEAM</div>
+        <h2 class="tit">지식과 기술에<br/><em>사고력을 더하다</em></h2>
+        <p class="about-txt">ROBO STEAM은 단순한 코딩 암기 교육이 아닙니다.<br/><br/><strong>생각의 크기를 키워 디지털 통찰력</strong>을 향상시키는 것을 최종 목표로 합니다. 레고 에듀케이션 공식 교구로 세상에 없는 것을 생각해내고, 창의적으로 구현하는 ICT 융합 인재를 기릅니다.</p>
+        <div class="about-nums">
+          <div class="anum"><div class="anum-n">30+</div><div class="anum-l">최근 2년 대회 참가</div></div>
+          <div class="anum"><div class="anum-n">98%</div><div class="anum-l">만족도</div></div>
+          <div class="anum"><div class="anum-n">50+</div><div class="anum-l">최근 2년 대회 수상</div></div>
+          <div class="anum"><div class="anum-n">10+</div><div class="anum-l">평균 운영 연수</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="sec" id="curriculum" style="background:#fff;">
+  <div class="si">
+    <div class="sec-c r">
+      <div class="tag" style="justify-content:center;margin-left:auto;margin-right:auto;">Curriculum</div>
+      <h2 class="tit">6가지 <em>맞춤 교육과정</em></h2>
+      <p class="lead">흥미·적성·수준·목표에 따라 선택할 수 있는 맞춤형 코스를 제공합니다.</p>
+    </div>
+    <div class="curri-grid r">
+      <div class="ccard"><div class="cthumb ct1"><span>🧱</span><span class="cnum">01</span></div><div class="cbody"><span class="clevel">초등 저학년</span><div class="ctit">레고 로봇 기초</div><div class="cdesc">LEGO Spike, Mindstorms를 활용한 기초 조립과 블록 코딩. 논리적 사고의 첫 걸음.</div></div><div class="cfoot"><a href="#" class="cmore">자세히 →</a></div></div>
+      <div class="ccard"><div class="cthumb ct2"><span>⚡</span><span class="cnum">02</span></div><div class="cbody"><span class="clevel">초등 고학년</span><div class="ctit">STEAM 융합 코딩</div><div class="cdesc">과학·기술·공학·예술·수학을 연결하는 프로젝트 기반 학습.</div></div><div class="cfoot"><a href="#" class="cmore">자세히 →</a></div></div>
+      <div class="ccard"><div class="cthumb ct3"><span>🏆</span><span class="cnum">03</span></div><div class="cbody"><span class="clevel">심화반</span><div class="ctit">대회 출전 전문반</div><div class="cdesc">FLL · RoboCup · Robotex 등 국내외 대회를 목표로 한 심화 훈련.</div></div><div class="cfoot"><a href="#" class="cmore">자세히 →</a></div></div>
+      <div class="ccard"><div class="cthumb ct4"><span>📐</span><span class="cnum">04</span></div><div class="cbody"><span class="clevel">창의 심화</span><div class="ctit">발명창작 프로젝트</div><div class="cdesc">아이디어를 실제 작동하는 발명품으로 구현합니다.</div></div><div class="cfoot"><a href="#" class="cmore">자세히 →</a></div></div>
+      <div class="ccard"><div class="cthumb ct5"><span>📁</span><span class="cnum">05</span></div><div class="cbody"><span class="clevel">입시 준비</span><div class="ctit">포트폴리오 완성반</div><div class="cdesc">과학고·영재학교를 위한 체계적인 포트폴리오 제작 과정.</div></div><div class="cfoot"><a href="#" class="cmore">자세히 →</a></div></div>
+      <div class="ccard"><div class="cthumb ct6"><span>🐍</span><span class="cnum">06</span></div><div class="cbody"><span class="clevel">중등 이상</span><div class="ctit">Python · C언어 코딩</div><div class="cdesc">블록 코딩을 넘어 Python과 C언어로 로봇을 직접 제어하는 실전 코딩.</div></div><div class="cfoot"><a href="#" class="cmore">자세히 →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="phil">
+  <div class="phil-row r">
+    <div class="pcopy"><div class="pnum">Philosophy 01</div><h3 class="ptit">지식과 기술에<br/><em>사고력을 더하다</em></h3><p class="pbody">ROBO STEAM은 단순한 코딩 암기 교육이 아닙니다.<br/><br/><strong>생각의 크기를 키워 디지털 통찰력</strong>을 향상시키는 것을 최종 목표로 합니다.</p></div>
+    <div class="pvis"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a3a6c,#2a6dd9);min-height:360px;display:flex;align-items:center;justify-content:center;font-size:80px;">🤖</div><div class="pvis-dim"></div></div>
+  </div>
+  <div class="phil-row flip r">
+    <div class="pcopy"><div class="pnum">Philosophy 02</div><h3 class="ptit">창업이 아닌<br/><em>창직의 시대를 준비하다</em></h3><p class="pbody">끊임없이 진화하는 시대에는 <strong>기존 직업의 패러다임을 깨는 능력</strong>이 필요합니다.</p></div>
+    <div class="pvis"><div style="width:100%;height:100%;background:linear-gradient(135deg,#0a3320,#14a870);min-height:360px;display:flex;align-items:center;justify-content:center;font-size:80px;">🚀</div><div class="pvis-dim"></div></div>
+  </div>
+  <div class="phil-row r">
+    <div class="pcopy"><div class="pnum">Philosophy 03</div><h3 class="ptit">인문학적 상상력과<br/><em>인성을 기르다</em></h3><p class="pbody">기술만이 전부가 아닙니다. <strong>협업을 통해 의미 있는 결과에 도달하는 경험</strong>이 진정한 미래 인재를 만듭니다.</p></div>
+    <div class="pvis"><div style="width:100%;height:100%;background:linear-gradient(135deg,#3d1400,#e85d1a);min-height:360px;display:flex;align-items:center;justify-content:center;font-size:80px;">💡</div><div class="pvis-dim"></div></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="sec feat" id="why">
+  <div class="si">
+    <div class="r"><div class="tag">Why ROBO STEAM Academy</div><h2 class="tit">차원이 다른 교육의 <em>5가지 이유</em></h2></div>
+    <div class="feat-grid r" style="margin-top:44px;">
+      <div class="fcard wide"><div class="ficon">🏅</div><div class="fnum">01 — 강사진</div><div class="ftit">수상 경험이 많은 강사가 직접 코치합니다</div><div class="fdesc">직접 대회에 출전하고 수상한 경험을 가진 전문가들이 학생 곁에서 함께합니다. 실전 노하우가 수업의 질을 결정합니다.</div><span class="ftag">대회 출전 경험 직접 코칭</span></div>
+      <div class="fcard"><div class="ficon">🎯</div><div class="fnum">02 — 맞춤 설계</div><div class="ftit">한 명을 위한 하나의 커리큘럼</div><div class="fdesc">아이의 성장 속도와 목표에 맞춰 개인화된 학습 경로를 설계합니다.</div><span class="ftag">개인 맞춤 커리큘럼</span></div>
+      <div class="fcard"><div class="ficon">🧱</div><div class="fnum">03 — 교구</div><div class="ftit"><strong>레고 에듀케이션의 공식 STEAM 로봇코딩 교구</strong></div><div class="fdesc">검증된 레고 에듀케이션 공식 교구로 창의력과 코딩 실력을 키웁니다.</div><span class="ftag">레고 에듀케이션 공식 교구</span></div>
+      <div class="fcard"><div class="ficon">📊</div><div class="fnum">04 — 포트폴리오</div><div class="ftit">입학부터 입시까지 모두 기록됩니다</div><div class="fdesc">수강 첫날부터 모든 프로젝트가 포트폴리오로 쌓입니다.</div><span class="ftag">입시 경쟁력 강화</span></div>
+      <div class="fcard"><div class="ficon">💬</div><div class="fnum">05 — 소통</div><div class="ftit">분기 리포트로 성장을 함께 확인</div><div class="fdesc">분기마다 아이의 성장 보고서를 제공하고 정기 학부모 면담을 진행합니다.</div><span class="ftag">분기 리포트 & 학부모 면담</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="sec" id="process" style="background:var(--g);">
+  <div class="si">
+    <div class="sec-c r"><div class="tag" style="justify-content:center;margin-left:auto;margin-right:auto;">입학절차</div><h2 class="tit">4단계로 시작하는 <em>간단한 여정</em></h2><p class="lead">체험수업을 통해 학습 진단을 먼저 받아보세요. 첫 상담은 무료입니다.</p></div>
+    <div class="proc-grid r" style="margin-top:44px;">
+      <div class="pstep"><div class="pstep-n">Step 01</div><div class="pstep-i">📋</div><div class="pstep-t">무료 체험수업 신청</div><div class="pstep-d">홈페이지, 네이버 예약 또는 전화로 체험수업 일정을 예약합니다.</div></div>
+      <div class="pstep"><div class="pstep-n">Step 02</div><div class="pstep-i">🎯</div><div class="pstep-t">레벨 테스트 &amp; 진단</div><div class="pstep-d">아이의 수준과 관심사를 파악하는 체험수업을 진행합니다.</div></div>
+      <div class="pstep"><div class="pstep-n">Step 03</div><div class="pstep-i">💬</div><div class="pstep-t">학부모 1:1 상담</div><div class="pstep-d">테스트 결과를 바탕으로 최적의 과정을 추천해 드립니다.</div></div>
+      <div class="pstep"><div class="pstep-n">Step 04</div><div class="pstep-i">🚀</div><div class="pstep-t">맞춤 수강 시작</div><div class="pstep-d">개인 커리큘럼으로 본격적인 학습을 시작합니다.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="awards" id="awards">
+  <div class="si">
+    <div class="r"><div class="tag">Awards &amp; Achievements</div><h2 class="tit">ROBO STEAM <em>대회 수상 실적</em></h2><p class="lead">WRO, FLL, RoboCup, Robotex 등 국내외 주요 대회에서 거둔 수상 실적입니다.</p></div>
+    <div class="ytabs r">
+      <button class="ytab on" onclick="switchYear(this,'aw25')">2026</button>
+      <button class="ytab" onclick="switchYear(this,'aw24')">2025</button>
+      <button class="ytab" onclick="switchYear(this,'aw23')">2024</button>
+    </div>
+    <div class="apanel on" id="aw25"><div class="ablock" style="padding-top:28px;"><p style="font-size:14px;color:rgba(255,255,255,.45);">등록된 수상 실적이 없습니다.</p></div></div>
+    <div class="apanel" id="aw24"><div class="ablock" style="padding-top:28px;"><p style="font-size:14px;color:rgba(255,255,255,.45);">등록된 수상 실적이 없습니다.</p></div></div>
+    <div class="apanel" id="aw23"><div class="ablock" style="padding-top:28px;"><p style="font-size:14px;color:rgba(255,255,255,.45);">등록된 수상 실적이 없습니다.</p></div></div>
+    
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="sec gallery" id="gallery">
+  <div class="si">
+    <div class="r"><div class="tag">Gallery</div><h2 class="tit">센터 소식 &amp; <em>활동 갤러리</em></h2><p class="lead">각 파트너 센터의 생생한 수업 현장, 대회 소식, 수강생 작품을 확인하세요.</p></div>
+    <div class="gtabs r">
+      <button class="gtab on" onclick="switchGtab(this,'ga')">전체</button>
+      <button class="gtab" onclick="switchGtab(this,'g3')">방배센터</button>
+      <button class="gtab" onclick="switchGtab(this,'g4')">분당센터</button>
+      <button class="gtab" onclick="switchGtab(this,'g5')">송도센터</button>
+    </div>
+    <div class="gfilter r">
+      <button class="gfbtn on" onclick="filterG(this,'all')">전체</button>
+      <button class="gfbtn" onclick="filterG(this,'photo')">📷 사진</button>
+      <button class="gfbtn" onclick="filterG(this,'video')">🎬 영상</button>
+      <button class="gfbtn" onclick="filterG(this,'post')">📝 글</button>
+    </div>
+    <div class="gpanel on" id="ga"><div class="ggrid"><div class="gempty">📷 등록된 게시물이 없습니다.</div></div></div>
+    <div class="gpanel" id="g3"><div class="ggrid"><div class="gempty">📷 방배센터의 첫 번째 게시물을 기다리고 있습니다.</div></div></div>
+    <div class="gpanel" id="g4"><div class="ggrid"><div class="gempty">📷 분당센터의 첫 번째 게시물을 기다리고 있습니다.</div></div></div>
+    <div class="gpanel" id="g5"><div class="ggrid"><div class="gempty">📷 송도센터의 첫 번째 게시물을 기다리고 있습니다.</div></div></div>
+  </div>
+</section>
+<div class="lbox" id="lbox" onclick="closeLbOuter(event)">
+  <div class="lbox-in"><button class="lbox-x" onclick="closeLb()">✕</button><div class="lbox-media" id="lbMedia"></div><div class="lbox-body"><div class="lbox-meta" id="lbMeta"></div><div class="lbox-tit" id="lbTit"></div><div class="lbox-desc" id="lbDesc"></div></div></div>
+</div>
+
+<!-- COMMUNITY -->
+<section class="sec comm" id="community">
+  <div class="si">
+    <div class="r"><div class="tag">Community</div><h2 class="tit">ROBO STEAM과 <em>소통하세요</em></h2><p class="lead">공지사항부터 FAQ, 교육 문의까지 언제든지 소통할 수 있습니다.</p></div>
+    <div class="ctabs r">
+      <button class="ctab on" onclick="switchCtab(this,'cn')">공지사항</button>
+      <button class="ctab" onclick="switchCtab(this,'cf')">FAQ</button>
+      <button class="ctab" onclick="switchCtab(this,'ci')">교육문의 및 교사지원</button>
+    </div>
+    <div class="cpanel on" id="cn">
+      <div class="nlist"><div style="padding:48px;text-align:center;font-size:14px;color:var(--t3);">📋 등록된 공지사항이 없습니다.</div></div>
+    </div>
+    <div class="cpanel" id="cf">
+      <div class="faqlist">
+        <div class="faqitem"><button class="faqq" onclick="toggleFaq(this)"><span class="faqq-q">Q</span><span class="faqq-t">몇 살부터 수강이 가능한가요?</span><span class="faqq-a">▼</span></button><div class="faqa">만 5세 이상 유아부터 고등학생까지 수강 가능합니다. 레고 에듀케이션 교구를 활용한 연령별 맞춤 커리큘럼을 제공하며, 처음 시작하는 아이도 부담 없이 참여할 수 있습니다.</div></div>
+        <div class="faqitem"><button class="faqq" onclick="toggleFaq(this)"><span class="faqq-q">Q</span><span class="faqq-t">수업은 어떤 방식으로 진행되나요?</span><span class="faqq-a">▼</span></button><div class="faqa">레고 에듀케이션 공식 교구를 활용한 프로젝트 기반 수업으로 진행됩니다. 매 수업마다 하나의 주제를 직접 설계·조립·코딩·발표하는 과정을 통해 논리적 사고와 창의력을 키웁니다.</div></div>
+        <div class="faqitem"><button class="faqq" onclick="toggleFaq(this)"><span class="faqq-q">Q</span><span class="faqq-t">대회 출전은 필수인가요?</span><span class="faqq-a">▼</span></button><div class="faqa">대회 출전은 선택 사항입니다. 일반 커리큘럼 수업과 FLL·RoboCup·Robotex 등 대회 준비 전문반은 별도로 운영됩니다. 관심 있는 학생은 담당 강사와 상담 후 도전할 수 있습니다.</div></div>
+        <div class="faqitem"><button class="faqq" onclick="toggleFaq(this)"><span class="faqq-q">Q</span><span class="faqq-t">포트폴리오는 어떻게 관리되나요?</span><span class="faqq-a">▼</span></button><div class="faqa">수강 첫날부터 모든 프로젝트 결과물이 체계적으로 기록됩니다. 분기별 성장 리포트와 함께 학부모님께 공유되며, 과학고·영재학교 입시에 활용할 수 있는 정식 포트폴리오로 완성해 드립니다.</div></div>
+        <div class="faqitem"><button class="faqq" onclick="toggleFaq(this)"><span class="faqq-q">Q</span><span class="faqq-t">가까운 센터를 어떻게 찾을 수 있나요?</span><span class="faqq-a">▼</span></button><div class="faqa">현재 서울 방배, 경기 분당, 인천 송도 3개 파트너 센터가 운영 중입니다. 홈페이지 하단 센터찾기 섹션에서 확인하시거나, 교육문의 탭을 통해 문의해 주시면 빠르게 안내드리겠습니다.</div></div>
+      </div>
+    </div>
+    <div class="cpanel" id="ci">
+      <div class="iqwrap">
+        <div class="iqblk">
+          <div class="iqico">✉️</div><div class="iqtit">교육 문의</div>
+          <p class="iqdesc">수강 상담, 커리큘럼, 센터 위치 등 궁금한 점을 남겨주세요.<br/><br/><span style="font-size:12px;color:var(--t3);">📞 방배 02-6338-6383<br/>📞 분당 031-717-2023<br/>📞 송도 032-710-3334</span></p>
+          <form class="iqform" name="inquiry" method="POST" data-netlify="true" onsubmit="handleIq(event)">
+            <input type="hidden" name="form-name" value="inquiry"/>
+            <div class="iqrow"><input class="iqf" type="text" name="name" placeholder="학부모 성함" required/><input class="iqf" type="tel" name="phone" placeholder="연락처" required/></div>
+            <div class="iqrow"><input class="iqf" type="text" name="child" placeholder="자녀 이름"/><select class="iqf" name="grade"><option value="" disabled selected>학년 선택</option><option>유아(5~7세)</option><option>초등 1~2학년</option><option>초등 3~4학년</option><option>초등 5~6학년</option><option>중학생</option><option>고등학생</option></select></div>
+            <select class="iqf" name="center"><option value="" disabled selected>관심 센터 선택</option><option value="방배|bangbaelego@naver.com">ROBO STEAM 방배센터</option><option value="분당|bundanglego@naver.com">ROBO STEAM 분당센터</option><option value="송도|songdocentrallego@naver.com">ROBO STEAM 송도센터</option></select>
+            <textarea class="iqf" name="message" rows="4" placeholder="궁금한 점을 자유롭게 적어주세요."></textarea>
+            <button class="iqsub" type="submit">문의 보내기 →</button>
+          </form>
+        </div>
+        <div class="iqblk">
+          <div class="iqico">🎓</div><div class="iqtit">교사 지원</div>
+          <p class="iqdesc">ROBO STEAM Academy 강사로 함께하고 싶으신가요?</p>
+          <div class="clist">
+            <div><div class="clb-l">지원 이메일 &amp; 전화</div><div class="clb-v">방배 : bangbaelego@naver.com · 02-6338-6383<br/>분당 : bundanglego@naver.com · 031-717-2023<br/>송도 : songdocentrallego@naver.com · 032-710-3334</div><div class="clb-s">이력서 + 자기소개서를 함께 보내주세요</div></div>
+            <div><div class="clb-l">지원 자격</div><div class="clb-v">관련 전공자 / 로봇코딩 경험자</div><div class="clb-s">LEGO 교육 경험자 우대, 신입 지원 가능</div></div>
+            <div><div class="clb-l">근무 형태</div><div class="clb-v">파트타임 · 풀타임 모두 가능</div><div class="clb-s">센터별 상이, 문의 시 안내</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CENTERS -->
+<section class="sec centers" id="centers">
+  <div class="si">
+    <div class="sec-c r"><div class="tag" style="justify-content:center;margin-left:auto;margin-right:auto;">Partner Centers</div><h2 class="tit">함께하는 <em>파트너 센터</em></h2><p class="lead">전국 3개 파트너 센터에서<br/>동일한 ROBO STEAM의 교육 철학으로<br/>아이를 만납니다.</p></div>
+    <div class="cgrid r">
+      <div class="ctr"><div class="cnum">01</div><div class="creg">서울 방배</div><div class="cnm">ROBO STEAM 방배센터</div><div class="cdiv"></div><div class="cdes">방배 지역 가족들과 함께하는 창의력 중심의 로봇코딩 교육.</div><a href="https://blog.naver.com/nikyzzang" target="_blank" class="clnk">문의하기 →</a></div>
+      <div class="ctr"><div class="cnum">02</div><div class="creg">경기 분당</div><div class="cnm">ROBO STEAM 분당센터</div><div class="cdiv"></div><div class="cdes">분당 지역 미래 인재를 키우는 ROBO STEAM 파트너 센터.</div><a href="https://blog.naver.com/learnsteamrobot" target="_blank" class="clnk">문의하기 →</a></div>
+      <div class="ctr"><div class="cnum">03</div><div class="creg">인천 송도</div><div class="cnm">ROBO STEAM 송도센터</div><div class="cdiv"></div><div class="cdes">송도 국제도시에서 글로벌 감각을 키우는 STEAM 로봇코딩 교육.</div><a href="https://blog.naver.com/songdosmartlearning" target="_blank" class="clnk">문의하기 →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="moverlay" id="moverlay" onclick="closeModalOuter(event)">
+  <div class="mbox">
+    <div class="mhdr"><div><p style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--o);margin-bottom:4px;">Free Trial</p><p style="font-size:17px;font-weight:900;color:var(--bk);">무료 체험수업 신청</p></div><button class="mclose" onclick="closeModal()">✕</button></div>
+    <div class="msteps">
+      <div class="msi"><div class="msdot on" id="md1">1</div><div class="msline" id="ml1"></div></div>
+      <div class="msi"><div class="msdot" id="md2">2</div><div class="msline" id="ml2"></div></div>
+      <div class="msi"><div class="msdot" id="md3">3</div><div class="msline" id="ml3"></div></div>
+      <div class="msi"><div class="msdot" id="md4">4</div></div>
+    </div>
+    <div class="mbody">
+      <div class="spanel on" id="mp1">
+        <div class="stit">이렇게 진행됩니다</div>
+        <div class="sdesc">체험수업 신청부터 정식 수강까지 4단계로 간단하게 시작하세요.</div>
+        <div class="scards">
+          <div class="scard"><div class="sc-n">Step 01</div><div class="sc-i">📋</div><div class="sc-t">무료 체험수업 신청</div><div class="sc-d">홈페이지, 네이버 예약 또는 전화로 예약합니다.</div></div>
+          <div class="scard"><div class="sc-n">Step 02</div><div class="sc-i">🎯</div><div class="sc-t">레벨 테스트 &amp; 진단</div><div class="sc-d">수준과 관심사를 파악하는 체험수업을 진행합니다.</div></div>
+          <div class="scard"><div class="sc-n">Step 03</div><div class="sc-i">💬</div><div class="sc-t">학부모 1:1 상담</div><div class="sc-d">테스트 결과를 바탕으로 최적의 과정을 추천합니다.</div></div>
+          <div class="scard"><div class="sc-n">Step 04</div><div class="sc-i">🚀</div><div class="sc-t">맞춤 수강 시작</div><div class="sc-d">개인 커리큘럼으로 본격적인 학습을 시작합니다.</div></div>
+        </div>
+        <div class="mbtns"><button class="mnext" onclick="goStep(2)">신청하기 →</button></div>
+      </div>
+      <div class="spanel" id="mp2">
+        <div class="stit">센터를 선택해 주세요</div>
+        <div class="sdesc">가장 가까운 ROBO STEAM 파트너 센터를 선택해 주세요.</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+          <label class="center-opt" onclick="selCenter(this)"><input type="radio" name="ctr" value="ROBO STEAM 방배센터" style="accent-color:var(--o);"><span style="font-size:14px;font-weight:700;color:var(--bk);">ROBO STEAM 방배센터</span><span style="font-size:12px;color:var(--t3);margin-left:auto;">서울 방배</span></label>
+          <label class="center-opt" onclick="selCenter(this)"><input type="radio" name="ctr" value="ROBO STEAM 분당센터" style="accent-color:var(--o);"><span style="font-size:14px;font-weight:700;color:var(--bk);">ROBO STEAM 분당센터</span><span style="font-size:12px;color:var(--t3);margin-left:auto;">경기 분당</span></label>
+          <label class="center-opt" onclick="selCenter(this)"><input type="radio" name="ctr" value="ROBO STEAM 송도센터" style="accent-color:var(--o);"><span style="font-size:14px;font-weight:700;color:var(--bk);">ROBO STEAM 송도센터</span><span style="font-size:12px;color:var(--t3);margin-left:auto;">인천 송도</span></label>
+        </div>
+        <div class="mbtns"><button class="mback" onclick="goStep(1)">← 이전</button><button class="mnext" onclick="goStep(3)">다음 →</button></div>
+      </div>
+      <div class="spanel" id="mp3">
+        <div class="stit">신청 정보를 입력해 주세요</div>
+        <div class="sdesc">입력하신 정보로 선택하신 센터에서 연락드립니다. <span class="req">*</span> 필수</div>
+        <form class="mform" id="applyForm" name="apply" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitForm(event)">
+          <input type="hidden" name="form-name" value="apply"/>
+          <input type="hidden" name="center" id="hiddenCenter"/>
+          <p style="display:none"><input name="bot-field"/></p>
+          <div class="mrow"><div class="mgrp"><label class="mlbl">학부모 성함 <span class="req">*</span></label><input class="mf" type="text" name="parent_name" placeholder="홍길동" required/></div><div class="mgrp"><label class="mlbl">연락처 <span class="req">*</span></label><input class="mf" type="tel" name="phone" placeholder="010-0000-0000" required/></div></div>
+          <div class="mrow"><div class="mgrp"><label class="mlbl">자녀 이름</label><input class="mf" type="text" name="child_name" placeholder="자녀 이름"/></div><div class="mgrp"><label class="mlbl">자녀 학년</label><select class="mf" name="grade"><option value="" disabled selected>학년 선택</option><option>유아(5~7세)</option><option>초등 1~2학년</option><option>초등 3~4학년</option><option>초등 5~6학년</option><option>중학생</option><option>고등학생</option></select></div></div>
+          <div class="mgrp"><label class="mlbl">이메일</label><input class="mf" type="email" name="email" placeholder="example@email.com"/></div>
+          <textarea class="mf" name="message" rows="3" placeholder="궁금한 점을 자유롭게 적어주세요."></textarea>
+          <div style="font-size:11px;color:var(--t3);line-height:1.6;padding:10px 12px;background:var(--g);border-radius:8px;">입력하신 개인정보는 체험수업 신청 및 상담 목적으로만 사용되며, 상담 완료 후 즉시 파기됩니다.</div>
+          <div class="mbtns"><button type="button" class="mback" onclick="goStep(2)">← 이전</button><button type="submit" class="mnext">신청 완료 →</button></div>
+        </form>
+      </div>
+      <div class="spanel" id="mp4">
+        <div class="mdone"><div class="mdone-i">🎉</div><div class="mdone-t">신청이 완료됐습니다!</div><p class="mdone-d"><strong id="doneCenter"></strong>에서<br/>빠른 시간 내에 연락드리겠습니다.<br/><br/>평일 오전 10시 ~ 오후 7시 운영</p><button class="mnext" style="margin-top:22px;width:100%;" onclick="closeModal()">확인</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCROLL TOP -->
+<button id="stbtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="맨 위로">↑</button>
+
+<script>
+// ── 슬라이더 ──
+var slideIdx = 0;
+var TOTAL = 3;
+var autoTimer = null;
+
+function moveSlide(d) {
+  slideIdx = (slideIdx + d + TOTAL) % TOTAL;
+  renderSlide();
+  resetTimer();
+}
+function goSlide(n) {
+  slideIdx = n;
+  renderSlide();
+  resetTimer();
+}
+function renderSlide() {
+  var wrap = document.getElementById('slidesWrap');
+  if (wrap) wrap.style.transform = 'translateX(' + (-slideIdx * 33.333) + '%)';
+  document.querySelectorAll('.hero-dot').forEach(function(d, i) {
+    d.classList.toggle('on', i === slideIdx);
+  });
+}
+function resetTimer() {
+  clearInterval(autoTimer);
+  autoTimer = setInterval(function(){ moveSlide(1); }, 6000);
+}
+autoTimer = setInterval(function(){ moveSlide(1); }, 6000);
+
+// ── 모바일 메뉴 ──
+function toggleNav() {
+  var mn = document.getElementById('mobileNav');
+  if (mn) mn.classList.toggle('open');
+}
+function closeNav() {
+  var mn = document.getElementById('mobileNav');
+  if (mn) mn.classList.remove('open');
+}
+
+
+// ── 슬라이더 ──
+// ── 수상 연도 탭 ──
+function switchAwardYear(btn, panelId) {
+  document.querySelectorAll('.ayt-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.award-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ── 갤러리 탭 ──
+function switchGalleryTab(btn, panelId) {
+  document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.gallery-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+  document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.gf-btn').classList.add('active');
+}
+
+// ── 타입 필터 ──
+function filterGallery(btn, type) {
+  document.querySelectorAll('.gf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const activePanel = document.querySelector('.gallery-panel.active');
+  if (!activePanel) return;
+  activePanel.querySelectorAll('.g-card').forEach(c => {
+    c.style.display = (type === 'all' || c.dataset.type === type) ? '' : 'none';
+  });
+}
+
+// ── 라이트박스 ──
+function openLightbox(type, src, title, desc, center, date) {
+  const lb = document.getElementById('galleryLightbox');
+  const media = document.getElementById('lbMedia');
+  if (type === 'photo') { media.innerHTML = `<img src="${src}" alt="${title}"/>`; media.style.display = ''; }
+  else if (type === 'video') { media.innerHTML = `<iframe src="${src}" allowfullscreen></iframe>`; media.style.display = ''; }
+  else { media.style.display = 'none'; }
+  document.getElementById('lbMeta').innerHTML = `<span class="g-center-tag">${center}</span><span class="g-date" style="margin-left:8px;">${date}</span>`;
+  document.getElementById('lbTitle').textContent = title;
+  document.getElementById('lbDesc').textContent = desc;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() { document.getElementById('galleryLightbox').classList.remove('open'); document.getElementById('lbMedia').innerHTML = ''; document.body.style.overflow = ''; }
+function closeLightboxOutside(e) { if (e.target === document.getElementById('galleryLightbox')) closeLightbox(); }
+
+// ── 커뮤니티 탭 ──
+function switchTab(e, panelId) {
+  document.querySelectorAll('.comm-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.comm-panel').forEach(p => p.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// ── FAQ ──
+function toggleFaq(btn) {
+  const item = btn.closest('.faqitem');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faqitem.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ── 문의 폼 ──
+function handleInquiry(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.inq-submit');
+  btn.textContent = '✓ 문의가 접수되었습니다';
+  btn.style.background = '#34c759';
+  btn.disabled = true;
+  setTimeout(() => { btn.textContent = '문의 보내기 →'; btn.style.background = ''; btn.disabled = false; e.target.reset(); }, 3000);
+}
+
+// ── 모달 ──
+const centerEmails = {'ROBO STEAM 분당센터':'','ROBO STEAM 송도센터':'','ROBO STEAM 방배센터':'','ROBO STEAM 분당센터':'','ROBO STEAM 송도센터':'simon9476@naver.com'};
+let currentStep = 1;
+let selectedCenter = '';
+
+function openModal() { document.getElementById('applyModal').classList.add('open'); document.body.style.overflow = 'hidden'; goStep(1); }
+function closeModal() { document.getElementById('applyModal').classList.remove('open'); document.body.style.overflow = ''; }
+function closeModalOutside(e) { if (e.target === document.getElementById('applyModal')) closeModal(); }
+
+function goStep(n) {
+  if (n === 3 && !selectedCenter) { alert('센터를 선택해 주세요.'); return; }
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('mp' + i).classList.toggle('on', i === n);
+    const dot = document.getElementById('msd' + i);
+    dot.classList.remove('active','done');
+    if (i < n) { dot.classList.add('done'); dot.textContent = '✓'; }
+    else if (i === n) { dot.classList.add('active'); dot.textContent = i; }
+    else { dot.textContent = i; }
+    if (i < 4) { const line = document.getElementById('msl' + i); if (line) line.classList.toggle('done', i < n); }
+  }
+  currentStep = n;
+  document.querySelector('.modal-box').scrollTop = 0;
+}
+
+function selectCenter(label) {
+  document.querySelectorAll('.center-select-label').forEach(l => { l.style.borderColor = ''; l.style.background = ''; });
+  label.style.borderColor = 'var(--orange)';
+  label.style.background = 'rgba(255,107,0,0.04)';
+  const radio = label.querySelector('input[type=radio]');
+  if (radio) { radio.checked = true; selectedCenter = radio.value; document.getElementById('hiddenCenter').value = selectedCenter; }
+}
+
+async function submitForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('applyFormModal');
+  const data = new FormData(form);
+  data.set('center', selectedCenter);
+  const btn = form.querySelector('[type=submit]');
+  btn.textContent = '전송 중...'; btn.disabled = true;
+  try { await fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(data).toString() }); } catch(err) {}
+  document.getElementById('doneCenter').textContent = selectedCenter;
+  goStep(4); form.reset(); selectedCenter = '';
+}
+
+// ── 스크롤 리빌 ──
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+}, {threshold: 0.08});
+document.querySelectorAll('.r').forEach(el => io.observe(el));
+
+// ── 갤러리 더보기 (미구현 항목 클릭 안내) ──
+document.querySelectorAll('.gallery-more-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.textContent = '준비 중입니다 🙏';
+    btn.style.color = '#FF6B00';
+    btn.style.borderColor = '#FF6B00';
+    setTimeout(() => {
+      btn.textContent = '더 보기';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 2000);
+  });
+});
+
+
+// ── 스크롤 상단 버튼 ──
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.style.display = window.scrollY > 600 ? 'flex' : 'none';
+  scrollTopBtn.style.alignItems = 'center';
+  scrollTopBtn.style.justifyContent = 'center';
+});
+
+
+// ── 네비게이션 활성 상태 (스크롤 감지) ──
+const navLinks = document.querySelectorAll('.nav-links a');
+const sectionIds = ['about','curriculum','awards','gallery','centers','community'];
+function updateNavActive() {
+  let current = '';
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 100) current = id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = '';
+    a.style.borderBottomColor = '';
+    if (a.getAttribute('href') === '#' + current) {
+      a.style.color = '#FF6B00';
+      a.style.borderBottomColor = '#FF6B00';
+    }
+  });
+}
+window.addEventListener('scroll', updateNavActive);
+
+// 모바일 메뉴
+// 수상 연도 탭
+function switchYear(btn, id) {
+  document.querySelectorAll('.ytab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.apanel').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById(id).classList.add('on');
+}
+
+// 갤러리 탭
+function switchGtab(btn, id) {
+  document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.gpanel').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.gfbtn').forEach(b => b.classList.remove('on'));
+  document.querySelector('.gfbtn').classList.add('on');
+}
+function filterG(btn, type) {
+  document.querySelectorAll('.gfbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelector('.gpanel.on').querySelectorAll('.gcard').forEach(c => {
+    c.style.display = (type === 'all' || c.dataset.type === type) ? '' : 'none';
+  });
+}
+
+// 라이트박스
+function openLb(type, src, tit, desc, ctr, date) {
+  const m = document.getElementById('lbMedia');
+  if (type === 'photo') { m.innerHTML = `<img src="${src}" alt="${tit}"/>`; m.style.display = ''; }
+  else if (type === 'video') { m.innerHTML = `<iframe src="${src}" allowfullscreen></iframe>`; m.style.display = ''; }
+  else { m.style.display = 'none'; }
+  document.getElementById('lbMeta').innerHTML = `<span class="gctag">${ctr}</span><span class="gdate" style="margin-left:8px;">${date}</span>`;
+  document.getElementById('lbTit').textContent = tit;
+  document.getElementById('lbDesc').textContent = desc;
+  document.getElementById('lbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLb() { document.getElementById('lbox').classList.remove('open'); document.getElementById('lbMedia').innerHTML = ''; document.body.style.overflow = ''; }
+function closeLbOuter(e) { if (e.target === document.getElementById('lbox')) closeLb(); }
+
+// 커뮤니티 탭
+function switchCtab(btn, id) {
+  document.querySelectorAll('.ctab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.cpanel').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById(id).classList.add('on');
+}
+
+// FAQ
+
+
+// 문의 폼
+function handleIq(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.iqsub');
+  const form = e.target;
+  const data = new FormData(form);
+  btn.textContent = '전송 중...'; btn.disabled = true;
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(data).toString()
+  }).then(() => {
+    btn.textContent = '✓ 접수됐습니다'; btn.style.background = '#34c759';
+    setTimeout(() => { btn.textContent = '문의 보내기 →'; btn.style.background = ''; btn.disabled = false; form.reset(); }, 3000);
+  }).catch(() => {
+    btn.textContent = '문의 보내기 →'; btn.disabled = false;
+    alert('전송 중 오류가 발생했습니다. 다시 시도해 주세요.');
+  });
+}
+
+// 모달
+let selCtr = '';
+
+function closeModal() { document.getElementById('moverlay').classList.remove('open'); document.body.style.overflow = ''; }
+function closeModalOuter(e) { if (e.target === document.getElementById('moverlay')) closeModal(); }
+function goStep(n) {
+  if (n === 3 && !selCtr) { alert('센터를 선택해 주세요.'); return; }
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('mp' + i).classList.toggle('on', i === n);
+    const dot = document.getElementById('md' + i);
+    dot.classList.remove('on','done');
+    if (i < n) { dot.classList.add('done'); dot.textContent = '✓'; }
+    else if (i === n) { dot.classList.add('on'); dot.textContent = i; }
+    else { dot.textContent = i; }
+    if (i < 4) { const l = document.getElementById('ml' + i); if (l) l.classList.toggle('done', i < n); }
+  }
+  document.querySelector('.mbox').scrollTop = 0;
+}
+function selCenter(lbl) {
+  document.querySelectorAll('.center-opt').forEach(l => { l.style.borderColor = ''; l.style.background = ''; });
+  lbl.style.borderColor = 'var(--o)'; lbl.style.background = 'rgba(255,107,0,.04)';
+  const r = lbl.querySelector('input[type=radio]');
+  if (r) { r.checked = true; selCtr = r.value; document.getElementById('hiddenCenter').value = selCtr; }
+}
+async 
+
+// 갤러리 더보기
+document.getElementById('gmoreBtn').addEventListener('click', function() {
+  this.textContent = '준비 중입니다 🙏'; this.style.color = 'var(--o)'; this.style.borderColor = 'var(--o)';
+  setTimeout(() => { this.textContent = '더 보기'; this.style.color = ''; this.style.borderColor = ''; }, 2000);
+});
+
+// 스크롤 상단 버튼
+const stbtn = document.getElementById('stbtn');
+window.addEventListener('scroll', () => {
+  const show = window.scrollY > 500;
+  stbtn.style.display = show ? 'flex' : 'none';
+  if (show) { stbtn.style.alignItems = 'center'; stbtn.style.justifyContent = 'center'; }
+});
+
+// 네비 활성
+const navAs = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  const ids = ['about','curriculum','awards','gallery','centers','community'];
+  let cur = '';
+  ids.forEach(id => { const el = document.getElementById(id); if (el && window.scrollY >= el.offsetTop - 100) cur = id; });
+  navAs.forEach(a => { a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--o)' : ''; a.style.borderBottomColor = a.getAttribute('href') === '#' + cur ? 'var(--o)' : ''; });
+});
+
+// 스크롤 리빌
+const rio = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); }); }, {threshold:0.08});
+document.querySelectorAll('.r').forEach(el => rio.observe(el));
+</script>
+<script>
+if (window.netlifyIdentity) {
+  window.netlifyIdentity.on("init", user => {
+    if (!user) {
+      window.netlifyIdentity.on("login", () => {
+        document.location.href = "/admin/";
+      });
+    }
+  });
+}
+</script>
+</body>
+</html>
