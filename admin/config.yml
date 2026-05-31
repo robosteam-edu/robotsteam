@@ -1,0 +1,21 @@
+yamlbackend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+locale: 'ko'
+
+collections:
+  - name: "notices"
+    label: "공지사항"
+    folder: "content/notices"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "날짜", name: "date", widget: "datetime", format: "YYYY.MM.DD" }
+      - { label: "종류", name: "type", widget: "select", options: ["공지", "일반"] }
+      - { label: "내용", name: "body", widget: "markdown" }
+      - { label: "센터", name: "center", widget: "select", options: ["전체", "방배센터", "분당센터", "송도센터"] }
