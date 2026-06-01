@@ -1051,7 +1051,7 @@ async function loadAwards() {
       const title   = (text.match(/^title:\s*(.+)$/m) || [])[1] || '';
       const award   = (text.match(/^award:\s*(.+)$/m) || [])[1] || '';
       const date    = (text.match(/^date:\s*(.+)$/m) || [])[1] || '';
-      const year    = (text.match(/^year:\s*(.+)$/m) || [])[1] || '';
+      const year    = ((text.match(/^year:\s*(.+)$/m) || [])[1] || '').replace(/['"]/g, '').trim();
       const center  = (text.match(/^center:\s*(.+)$/m) || [])[1] || '';
       const student = (text.match(/^student:\s*(.+)$/m) || [])[1] || '';
       const image   = (text.match(/^image:\s*(.+)$/m) || [])[1] || '';
