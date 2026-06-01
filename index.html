@@ -1201,7 +1201,7 @@ function selectCenter(label) {
 
 async function submitForm(e) {
   e.preventDefault();
-  const form = document.getElementById('applyFormModal');
+  const form = document.getElementById('applyForm');
   const data = new FormData(form);
   data.set('center', selectedCenter);
   const btn = form.querySelector('[type=submit]');
@@ -1373,7 +1373,7 @@ loadNotices();
 function closeModal() { document.getElementById('moverlay').classList.remove('open'); document.body.style.overflow = ''; }
 function closeModalOuter(e) { if (e.target === document.getElementById('moverlay')) closeModal(); }
 function goStep(n) {
-  if (n === 3 && !selCtr) { alert('센터를 선택해 주세요.'); return; }
+  if (n === 3 && !selectedCenter) { alert('센터를 선택해 주세요.'); return; }
   for (let i = 1; i <= 4; i++) {
     document.getElementById('mp' + i).classList.toggle('on', i === n);
     const dot = document.getElementById('md' + i);
@@ -1389,7 +1389,7 @@ function selCenter(lbl) {
   document.querySelectorAll('.center-opt').forEach(l => { l.style.borderColor = ''; l.style.background = ''; });
   lbl.style.borderColor = 'var(--o)'; lbl.style.background = 'rgba(255,107,0,.04)';
   const r = lbl.querySelector('input[type=radio]');
-  if (r) { r.checked = true; selCtr = r.value; document.getElementById('hiddenCenter').value = selCtr; }
+  if (r) { r.checked = true; selectedCenter = r.value; document.getElementById('hiddenCenter').value = selectedCenter; }
 }
 async 
 
