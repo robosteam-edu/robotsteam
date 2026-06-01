@@ -14,11 +14,24 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "제목", name: "title", widget: "string" }
-      - { label: "날짜", name: "date", widget: "datetime", format: "YYYY.MM.DD" }
-      - { label: "종류", name: "type", widget: "select", options: ["공지", "일반"] }
-      - { label: "내용", name: "body", widget: "markdown" }
-      - { label: "센터", name: "center", widget: "select", options: ["전체", "방배센터", "분당센터", "송도센터"] }
+      - label: "제목"
+        name: "title"
+        widget: "string"
+      - label: "날짜"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY.MM.DD"
+      - label: "종류"
+        name: "type"
+        widget: "select"
+        options: ["공지", "일반"]
+      - label: "내용"
+        name: "body"
+        widget: "markdown"
+      - label: "센터"
+        name: "center"
+        widget: "select"
+        options: ["전체", "방배센터", "분당센터", "송도센터"]
 
   - name: "gallery"
     label: "갤러리"
@@ -26,26 +39,66 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "제목", name: "title", widget: "string" }
-      - { label: "날짜", name: "date", widget: "datetime", format: "YYYY.MM.DD" }
-      - { label: "센터", name: "center", widget: "select", options: ["방배센터", "분당센터", "송도센터"] }
-      - { label: "종류", name: "type", widget: "select", options: ["사진", "영상", "글"] }
-      - { label: "대표 이미지", name: "image", widget: "image", required: false }
-      - { label: "유튜브 링크", name: "youtube", widget: "string", required: false }
-      - { label: "내용", name: "body", widget: "markdown" }
+      - label: "제목"
+        name: "title"
+        widget: "string"
+      - label: "날짜"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY.MM.DD"
+      - label: "센터"
+        name: "center"
+        widget: "select"
+        options: ["방배센터", "분당센터", "송도센터"]
+      - label: "종류"
+        name: "type"
+        widget: "select"
+        options: ["사진", "영상", "글"]
+      - label: "대표 이미지"
+        name: "image"
+        widget: "image"
+        required: false
+      - label: "유튜브 링크"
+        name: "youtube"
+        widget: "string"
+        required: false
+      - label: "내용"
+        name: "body"
+        widget: "markdown"
 
-- name: "awards"
+  - name: "awards"
     label: "수상 실적"
     folder: "content/awards"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "대회명", name: "title", widget: "string" }
-      - { label: "수상 내용", name: "award", widget: "string" }
-      - { label: "날짜", name: "date", widget: "datetime", format: "YYYY.MM.DD" }
-      - { label: "연도", name: "year", widget: "select", options: ["2026", "2025", "2024"] }
-      - { label: "센터", name: "center", widget: "select", options: ["방배센터", "분당센터", "송도센터"] }
-      - { label: "학생 이름", name: "student", widget: "string", required: false }
-      - { label: "이미지", name: "image", widget: "image", required: false }
-      - { label: "내용", name: "body", widget: "markdown", required: false }
-
+      - label: "대회명"
+        name: "title"
+        widget: "string"
+      - label: "수상 내용"
+        name: "award"
+        widget: "string"
+      - label: "날짜"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY.MM.DD"
+      - label: "연도"
+        name: "year"
+        widget: "select"
+        options: ["2026", "2025", "2024"]
+      - label: "센터"
+        name: "center"
+        widget: "select"
+        options: ["방배센터", "분당센터", "송도센터"]
+      - label: "학생 이름"
+        name: "student"
+        widget: "string"
+        required: false
+      - label: "이미지"
+        name: "image"
+        widget: "image"
+        required: false
+      - label: "내용"
+        name: "body"
+        widget: "markdown"
+        required: false
