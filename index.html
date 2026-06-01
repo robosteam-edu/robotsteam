@@ -1085,16 +1085,29 @@ function makeGCard(item) {
     const vid = item.youtube.match(/(?:v=|youtu\.be\/)([^&\s]+)/);
     if (vid) media = `<div class="gthumb" style="position:relative;padding-top:56.25%;background:#000;border-radius:10px;overflow:hidden;margin-bottom:10px;"><iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/${vid[1]}" frameborder="0" allowfullscreen></iframe></div>`;
   } else if (item.image) {
-    media = `<div class="gthumb" style="border-radius:10px;overflow:hidden;margin-bottom:10px;"><img src="${item.image}" alt="${item.title}" style="width:100%;aspect-ratio:16/9;object-fit:cover;"/></div>`;
+    media = `<div class="gthumb" style="border-radius:10px;overflow:hidden;margin-bottom:10px;cursor:pointer;"><img src="${item.image}" alt="${item.title}" style="width:100%;aspect-ratio:16/9;object-fit:cover;"/></div>`;
   }
-  return `<div class="gcard" style="background:#fff;border-radius:14px;padding:16px;border:1.5px solid var(--bd);">
+  const bodyHtml = item.body ? `<div style="margin-top:12px;font-size:14px;color:var(--t2);line-height:1.8;border-top:1px solid var(--bd);padding-top:12px;">${item.body.replace(/\n/g,'<br/>')}</div>` : '';
+  const cardId = 'gc_' + Math.random().toString(36).slice(2,8);
+  return `<div class="gcard" id="${cardId}" style="background:#fff;border-radius:14px;padding:16px;border:1.5px solid var(--bd);cursor:pointer;transition:box-shadow .2s;" onclick="toggleGCard('${cardId}')">
     ${media}
     <div style="font-size:11px;color:var(--o);font-weight:700;margin-bottom:4px;">${item.center} · ${item.type}</div>
     <div style="font-size:14px;font-weight:700;color:var(--bk);margin-bottom:4px;">${item.title}</div>
     <div style="font-size:12px;color:var(--t3);">${item.date}</div>
+    <div class="gbody" style="display:none;">${bodyHtml}</div>
   </div>`;
 }
 loadGallery();
+
+function toggleGCard(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  const body = card.querySelector('.gbody');
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  card.style.boxShadow = isOpen ? '' : '0 8px 24px rgba(0,0,0,.12)';
+}
 
 // ── 공지 토글 ──
 function toggleNotice(e, idx) {
