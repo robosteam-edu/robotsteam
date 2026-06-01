@@ -1034,6 +1034,16 @@ function handleInquiry(e) {
   setTimeout(() => { btn.textContent = '문의 보내기 →'; btn.style.background = ''; btn.disabled = false; e.target.reset(); }, 3000);
 }
 
+// ── 공지 토글 ──
+function toggleNotice(e, idx) {
+  e.preventDefault();
+  const nc = document.getElementById('nc' + idx);
+  if (!nc) return;
+  const isOpen = nc.style.display !== 'none';
+  document.querySelectorAll('[id^="nc"]').forEach(el => el.style.display = 'none');
+  if (!isOpen) nc.style.display = 'block';
+}
+
 // ── 모달 ──
 const centerEmails = {'ROBO STEAM 분당센터':'','ROBO STEAM 송도센터':'','ROBO STEAM 방배센터':'','ROBO STEAM 분당센터':'','ROBO STEAM 송도센터':'simon9476@naver.com'};
 let currentStep = 1;
@@ -1224,12 +1234,13 @@ async function loadNotices() {
 
     notices.sort((a,b) => b.date.localeCompare(a.date));
 
-    nlist.innerHTML = notices.map(n => `
-      <a class="nitem" href="#">
+    nlist.innerHTML = notices.map((n, idx) => `
+      <a class="nitem" href="#" onclick="toggleNotice(event, ${idx})">
         <span class="nbadge">${n.type || '공지'}</span>
         <span class="ntit">${n.title}</span>
         <span class="ndate">${n.date}</span>
-      </a>`).join('');
+      </a>
+      <div class="ncontent" id="nc${idx}" style="display:none;padding:16px 20px;font-size:14px;color:var(--t2);line-height:1.8;border-bottom:1px solid var(--bd);background:var(--g);">${n.body.replace(/\n/g,'<br/>')}</div>`).join('');
   } catch(e) {
     console.log('공지 로드 실패:', e);
   }
