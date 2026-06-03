@@ -1081,117 +1081,150 @@ function handleInquiry(e) {
   setTimeout(() => { btn.textContent = '문의 보내기 →'; btn.style.background = ''; btn.disabled = false; e.target.reset(); }, 3000);
 }
 
-// ── 수상 실적 GitHub에서 로드 ──
-async function loadAwards() {
-  const panelMap = { '2026': 'aw25', '2025': 'aw24', '2024': 'aw23' };
-  try {
-    const res = await fetch('https://api.github.com/repos/robosteam-edu/robotsteam/contents/content/awards', {
-      headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token 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', 'Cache-Control': 'no-cache' }
-    });
-    if (!res.ok) return;
-    const files = await res.json();
-    if (!files.length) return;
 
-    const items = await Promise.all(files.map(async f => {
-      const r = await fetch(f.download_url);
-      const text = await r.text();
-      const title   = (text.match(/^title:\s*(.+)$/m) || [])[1] || '';
-      const award   = (text.match(/^award:\s*(.+)$/m) || [])[1] || '';
-      const date    = (text.match(/^date:\s*(.+)$/m) || [])[1] || '';
-      const year    = ((text.match(/^year:\s*(.+)$/m) || [])[1] || '').replace(/['"]/g, '').trim();
-      const center  = (text.match(/^center:\s*(.+)$/m) || [])[1] || '';
-      const student = (text.match(/^student:\s*(.+)$/m) || [])[1] || '';
-      const image   = (text.match(/^image:\s*(.+)$/m) || [])[1] || '';
-      return { title, award, date: date.slice(0,10), year, center, student, image };
-    }));
 
-    items.sort((a,b) => b.date.localeCompare(a.date));
 
-    // 연도별 패널에 삽입
-    Object.entries(panelMap).forEach(([year, panelId]) => {
-      const panel = document.getElementById(panelId);
-      if (!panel) return;
-      const filtered = items.filter(i => i.year === year);
-      if (!filtered.length) return;
-      panel.innerHTML = `<div class="ablock">` + filtered.map(item => `
-        <div style="display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);">
-          ${item.image ? `<img src="${item.image}" alt="${item.title}" style="width:64px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0;"/>` : `<div style="width:64px;height:64px;background:rgba(255,255,255,.08);border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;">🏆</div>`}
-          <div>
-            <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:2px;">${item.award}</div>
-            <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">${item.title}</div>
-            <div style="font-size:12px;color:rgba(255,255,255,.5);">${item.center}${item.student ? ' · ' + item.student : ''} · ${item.date}</div>
-          </div>
-        </div>`).join('') + `</div>`;
-    });
 
-  } catch(e) { console.log('수상 실적 로드 실패:', e); }
-}
-loadAwards();
 
-// ── 갤러리 GitHub에서 로드 ──
-async function loadGallery() {
-  const panels = { '방배센터': 'g3', '분당센터': 'g4', '송도센터': 'g5' };
-  try {
-    const res = await fetch('https://api.github.com/repos/robosteam-edu/robotsteam/contents/content/gallery', {
-      headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token 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', 'Cache-Control': 'no-cache' }
-    });
-    if (!res.ok) return;
-    const files = await res.json();
-    if (!files.length) return;
+// ── GitHub 콘텐츠 로더 ──
+const GH_TOKEN = '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';
+const GH_BASE = 'https://api.github.com/repos/robosteam-edu/robotsteam/contents/content';
+const GH_RAW = 'https://raw.githubusercontent.com/robosteam-edu/robotsteam/main/content';
 
-    const items = await Promise.all(files.map(async f => {
-      const r = await fetch(f.download_url);
-      const text = await r.text();
-      const title   = (text.match(/^title:\s*(.+)$/m) || [])[1] || '';
-      const date    = (text.match(/^date:\s*(.+)$/m) || [])[1] || '';
-      const center  = (text.match(/^center:\s*(.+)$/m) || [])[1] || '';
-      const type    = (text.match(/^type:\s*(.+)$/m) || [])[1] || '';
-      const image   = (text.match(/^image:\s*(.+)$/m) || [])[1] || '';
-      const youtube = (text.match(/^youtube:\s*(.+)$/m) || [])[1] || '';
-      const body    = text.replace(/^---[\s\S]*?---\n?/, '').trim();
-      return { title, date: date.slice(0,10), center, type, image, youtube, body };
-    }));
-
-    items.sort((a,b) => b.date.localeCompare(a.date));
-
-    // 전체 패널
-    const gaPanel = document.getElementById('ga');
-    if (gaPanel) {
-      gaPanel.innerHTML = '<div class="ggrid">' + items.map(item => makeGCard(item)).join('') + '</div>';
+function ghFetch(url) {
+  return fetch(url, {
+    headers: {
+      'Authorization': 'token ' + GH_TOKEN,
+      'Accept': 'application/vnd.github.v3+json'
     }
+  });
+}
 
-    // 센터별 패널
+function parseFrontmatter(text) {
+  const m = text.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)/);
+  if (!m) return { body: text };
+  const meta = {};
+  m[1].split('\n').forEach(line => {
+    const [k, ...v] = line.split(':');
+    if (k) meta[k.trim()] = v.join(':').trim();
+  });
+  meta.body = m[2].trim();
+  return meta;
+}
+
+// ── 공지사항 로드 ──
+async function loadNotices() {
+  const nlist = document.querySelector('.nlist');
+  if (!nlist) return;
+  try {
+    const res = await ghFetch(GH_BASE + '/notices');
+    if (!res.ok) throw new Error('notices fetch failed: ' + res.status);
+    const files = await res.json();
+    if (!Array.isArray(files) || !files.length) return;
+
+    const items = await Promise.all(files.map(async f => {
+      const r = await fetch(f.download_url);
+      const text = await r.text();
+      return parseFrontmatter(text);
+    }));
+    items.sort((a,b) => (b.date||'').localeCompare(a.date||''));
+
+    nlist.innerHTML = items.map((n, i) => `
+      <a class="nitem" href="#" onclick="toggleNotice(event,${i})">
+        <span class="nbadge">${n.type||'공지'}</span>
+        <span class="ntit">${n.title||''}</span>
+        <span class="ndate">${(n.date||'').slice(0,10)}</span>
+      </a>
+      <div class="ncontent" id="nc${i}" style="display:none;padding:16px 20px;font-size:14px;color:var(--t2);line-height:1.8;border-bottom:1px solid var(--bd);background:var(--g);">${(n.body||'').replace(/\n/g,'<br/>')}</div>
+    `).join('');
+  } catch(e) { console.error('공지 로드 실패:', e); }
+}
+loadNotices();
+
+// ── 갤러리 로드 ──
+async function loadGallery() {
+  const panels = {'방배센터':'g3','분당센터':'g4','송도센터':'g5'};
+  try {
+    const res = await ghFetch(GH_BASE + '/gallery');
+    if (!res.ok) throw new Error('gallery fetch failed: ' + res.status);
+    const files = await res.json();
+    if (!Array.isArray(files) || !files.length) return;
+
+    const items = await Promise.all(files.map(async f => {
+      const r = await fetch(f.download_url);
+      const text = await r.text();
+      return parseFrontmatter(text);
+    }));
+    items.sort((a,b) => (b.date||'').localeCompare(a.date||''));
+
+    const gaPanel = document.getElementById('ga');
+    if (gaPanel) gaPanel.innerHTML = '<div class="ggrid">' + items.map(makeGCard).join('') + '</div>';
+
     Object.entries(panels).forEach(([center, id]) => {
       const panel = document.getElementById(id);
       if (!panel) return;
       const filtered = items.filter(i => i.center === center);
       panel.innerHTML = filtered.length
-        ? '<div class="ggrid">' + filtered.map(item => makeGCard(item)).join('') + '</div>'
-        : '<div class="ggrid"><div class="gempty">📷 ' + center + '의 첫 번째 게시물을 기다리고 있습니다.</div></div>';
+        ? '<div class="ggrid">' + filtered.map(makeGCard).join('') + '</div>'
+        : '<div style="padding:40px;text-align:center;color:var(--t3);">📷 등록된 게시물이 없습니다.</div>';
     });
-
-  } catch(e) { console.log('갤러리 로드 실패:', e); }
+  } catch(e) { console.error('갤러리 로드 실패:', e); }
 }
 
 function makeGCard(item) {
+  const cardId = 'gc_' + Math.random().toString(36).slice(2,8);
   let media = '';
   if (item.youtube) {
     const vid = item.youtube.match(/(?:v=|youtu\.be\/)([^&\s]+)/);
-    if (vid) media = `<div class="gthumb" style="position:relative;padding-top:56.25%;background:#000;border-radius:10px;overflow:hidden;margin-bottom:10px;"><iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/${vid[1]}" frameborder="0" allowfullscreen></iframe></div>`;
+    if (vid) media = `<div style="position:relative;padding-top:56.25%;border-radius:10px;overflow:hidden;margin-bottom:10px;"><iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/${vid[1]}" frameborder="0" allowfullscreen></iframe></div>`;
   } else if (item.image) {
-    media = `<div class="gthumb" style="border-radius:10px;overflow:hidden;margin-bottom:10px;cursor:pointer;"><img src="${item.image}" alt="${item.title}" style="width:100%;aspect-ratio:16/9;object-fit:cover;"/></div>`;
+    media = `<div style="border-radius:10px;overflow:hidden;margin-bottom:10px;cursor:pointer;"><img src="${item.image}" alt="${item.title||''}" style="width:100%;aspect-ratio:16/9;object-fit:cover;"/></div>`;
   }
-  const bodyHtml = item.body ? `<div style="margin-top:12px;font-size:14px;color:var(--t2);line-height:1.8;border-top:1px solid var(--bd);padding-top:12px;">${item.body.replace(/\n/g,'<br/>')}</div>` : '';
-  const cardId = 'gc_' + Math.random().toString(36).slice(2,8);
+  const bodyHtml = item.body ? `<div style="margin-top:12px;font-size:14px;color:var(--t2);line-height:1.8;border-top:1px solid var(--bd);padding-top:12px;">${(item.body||'').replace(/\n/g,'<br/>')}</div>` : '';
   return `<div class="gcard" id="${cardId}" style="background:#fff;border-radius:14px;padding:16px;border:1.5px solid var(--bd);cursor:pointer;transition:box-shadow .2s;" onclick="toggleGCard('${cardId}')">
     ${media}
-    <div style="font-size:11px;color:var(--o);font-weight:700;margin-bottom:4px;">${item.center} · ${item.type}</div>
-    <div style="font-size:14px;font-weight:700;color:var(--bk);margin-bottom:4px;">${item.title}</div>
-    <div style="font-size:12px;color:var(--t3);">${item.date}</div>
+    <div style="font-size:11px;color:var(--o);font-weight:700;margin-bottom:4px;">${item.center||''} · ${item.type||''}</div>
+    <div style="font-size:14px;font-weight:700;color:var(--bk);margin-bottom:4px;">${item.title||''}</div>
+    <div style="font-size:12px;color:var(--t3);">${(item.date||'').slice(0,10)}</div>
     <div class="gbody" style="display:none;">${bodyHtml}</div>
   </div>`;
 }
 loadGallery();
+
+// ── 수상 실적 로드 ──
+async function loadAwards() {
+  const panelMap = {'2026':'aw25','2025':'aw24','2024':'aw23'};
+  try {
+    const res = await ghFetch(GH_BASE + '/awards');
+    if (!res.ok) throw new Error('awards fetch failed: ' + res.status);
+    const files = await res.json();
+    if (!Array.isArray(files) || !files.length) return;
+
+    const items = await Promise.all(files.map(async f => {
+      const r = await fetch(f.download_url);
+      const text = await r.text();
+      return parseFrontmatter(text);
+    }));
+    items.sort((a,b) => (b.date||'').localeCompare(a.date||''));
+
+    Object.entries(panelMap).forEach(([year, panelId]) => {
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+      const filtered = items.filter(i => (i.year||'').replace(/['"]/g,'').trim() === year);
+      if (!filtered.length) return;
+      panel.innerHTML = '<div class="ablock">' + filtered.map(item => `
+        <div style="display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);">
+          ${item.image ? `<img src="${item.image}" style="width:64px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0;"/>` : `<div style="width:64px;height:64px;background:rgba(255,255,255,.08);border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;">🏆</div>`}
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:2px;">${item.award||''}</div>
+            <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">${item.title||''}</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.5);">${item.center||''}${item.student?' · '+item.student:''} · ${(item.date||'').slice(0,10)}</div>
+          </div>
+        </div>`).join('') + '</div>';
+    });
+  } catch(e) { console.error('수상 실적 로드 실패:', e); }
+}
+loadAwards();
 
 function toggleGCard(id) {
   const card = document.getElementById(id);
@@ -1403,42 +1436,7 @@ function handleIq(e) {
   });
 }
 
-// ── 공지사항 GitHub에서 로드 ──
-async function loadNotices() {
-  const nlist = document.querySelector('.nlist');
-  if (!nlist) return;
-  try {
-    const res = await fetch('https://api.github.com/repos/robosteam-edu/robotsteam/contents/content/notices', {
-      headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token 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', 'Cache-Control': 'no-cache' }
-    });
-    if (!res.ok) throw new Error('fetch failed');
-    const files = await res.json();
-    if (!files.length) return;
 
-    const notices = await Promise.all(files.map(async f => {
-      const r = await fetch(f.download_url);
-      const text = await r.text();
-      const title = (text.match(/^title:\s*(.+)$/m) || [])[1] || '';
-      const date = (text.match(/^date:\s*(.+)$/m) || [])[1] || '';
-      const type = (text.match(/^type:\s*(.+)$/m) || [])[1] || '';
-      const body = text.replace(/^---[\s\S]*?---\n?/, '').trim();
-      return { title, date: date.slice(0,10), type, body };
-    }));
-
-    notices.sort((a,b) => b.date.localeCompare(a.date));
-
-    nlist.innerHTML = notices.map((n, idx) => `
-      <a class="nitem" href="#" onclick="toggleNotice(event, ${idx})">
-        <span class="nbadge">${n.type || '공지'}</span>
-        <span class="ntit">${n.title}</span>
-        <span class="ndate">${n.date}</span>
-      </a>
-      <div class="ncontent" id="nc${idx}" style="display:none;padding:16px 20px;font-size:14px;color:var(--t2);line-height:1.8;border-bottom:1px solid var(--bd);background:var(--g);">${n.body.replace(/\n/g,'<br/>')}</div>`).join('');
-  } catch(e) {
-    console.log('공지 로드 실패:', e);
-  }
-}
-loadNotices();
 
 function closeModal() { document.getElementById('moverlay').classList.remove('open'); document.body.style.overflow = ''; }
 function closeModalOuter(e) { if (e.target === document.getElementById('moverlay')) closeModal(); }
