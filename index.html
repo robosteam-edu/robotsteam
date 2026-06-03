@@ -1041,7 +1041,7 @@ function filterGallery(btn, type) {
 
 // ── 라이트박스 ──
 function openLightbox(type, src, title, desc, center, date) {
-  const lb = document.getElementById('galleryLightbox');
+  const lb = document.getElementById('lbox');
   const media = document.getElementById('lbMedia');
   if (type === 'photo') { media.innerHTML = `<img src="${src}" alt="${title}"/>`; media.style.display = ''; }
   else if (type === 'video') { media.innerHTML = `<iframe src="${src}" allowfullscreen></iframe>`; media.style.display = ''; }
@@ -1052,8 +1052,8 @@ function openLightbox(type, src, title, desc, center, date) {
   lb.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-function closeLightbox() { document.getElementById('galleryLightbox').classList.remove('open'); document.getElementById('lbMedia').innerHTML = ''; document.body.style.overflow = ''; }
-function closeLightboxOutside(e) { if (e.target === document.getElementById('galleryLightbox')) closeLightbox(); }
+function closeLightbox() { document.getElementById('lbox').classList.remove('open'); document.getElementById('lbMedia').innerHTML = ''; document.body.style.overflow = ''; }
+function closeLightboxOutside(e) { if (e.target === document.getElementById('lbox')) closeLightbox(); }
 
 // ── 커뮤니티 탭 ──
 function switchTab(e, panelId) {
@@ -1243,8 +1243,8 @@ let currentStep = 1;
 let selectedCenter = '';
 
 function openModal() { document.getElementById('moverlay').classList.add('open'); document.body.style.overflow = 'hidden'; goStep(1); }
-function closeModal() { document.getElementById('applyModal').classList.remove('open'); document.body.style.overflow = ''; }
-function closeModalOutside(e) { if (e.target === document.getElementById('applyModal')) closeModal(); }
+function closeModal() { document.getElementById('moverlay').classList.remove('open'); document.body.style.overflow = ''; }
+function closeModalOutside(e) { if (e.target === document.getElementById('moverlay')) closeModal(); }
 
 function goStep(n) {
   if (n === 3 && !selectedCenter) { alert('센터를 선택해 주세요.'); return; }
@@ -1303,7 +1303,7 @@ document.querySelectorAll('.gallery-more-btn').forEach(btn => {
 
 
 // ── 스크롤 상단 버튼 ──
-const scrollTopBtn = document.getElementById('scrollTop');
+const scrollTopBtn = document.getElementById('scroll-top');
 window.addEventListener('scroll', () => {
   scrollTopBtn.style.display = window.scrollY > 600 ? 'flex' : 'none';
   scrollTopBtn.style.alignItems = 'center';
