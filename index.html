@@ -1269,8 +1269,9 @@ document.querySelectorAll('.gallery-more-btn').forEach(btn => {
 
 
 // ── 스크롤 상단 버튼 ──
-const scrollTopBtn = document.getElementById('scrollTop');
+const scrollTopBtn = document.getElementById('scroll-top');
 window.addEventListener('scroll', () => {
+  if (!scrollTopBtn) return;
   scrollTopBtn.style.display = window.scrollY > 600 ? 'flex' : 'none';
   scrollTopBtn.style.alignItems = 'center';
   scrollTopBtn.style.justifyContent = 'center';
@@ -1392,7 +1393,6 @@ function selCenter(lbl) {
   const r = lbl.querySelector('input[type=radio]');
   if (r) { r.checked = true; selectedCenter = r.value; document.getElementById('hiddenCenter').value = selectedCenter; }
 }
-async 
 
 // 갤러리 더보기
 document.getElementById('gmoreBtn').addEventListener('click', function() {
