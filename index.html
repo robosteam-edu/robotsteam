@@ -1086,7 +1086,7 @@ async function loadAwards() {
   const panelMap = { '2026': 'aw25', '2025': 'aw24', '2024': 'aw23' };
   try {
     const res = await fetch('https://api.github.com/repos/robosteam-edu/robotsteam/contents/content/awards', {
-      headers: { 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache' }
+      headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token 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', 'Cache-Control': 'no-cache' }
     });
     if (!res.ok) return;
     const files = await res.json();
@@ -1133,7 +1133,7 @@ async function loadGallery() {
   const panels = { '방배센터': 'g3', '분당센터': 'g4', '송도센터': 'g5' };
   try {
     const res = await fetch('https://api.github.com/repos/robosteam-edu/robotsteam/contents/content/gallery', {
-      headers: { 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache' }
+      headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token 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', 'Cache-Control': 'no-cache' }
     });
     if (!res.ok) return;
     const files = await res.json();
@@ -1409,7 +1409,7 @@ async function loadNotices() {
   if (!nlist) return;
   try {
     const res = await fetch('https://api.github.com/repos/robosteam-edu/robotsteam/contents/content/notices', {
-      headers: { 'Accept': 'application/vnd.github.v3+json', 'Cache-Control': 'no-cache' }
+      headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token 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', 'Cache-Control': 'no-cache' }
     });
     if (!res.ok) throw new Error('fetch failed');
     const files = await res.json();
