@@ -2,103 +2,86 @@ backend:
   name: git-gateway
   branch: main
 
+# 업로드한 이미지가 저장되는 폴더와, 그 이미지를 홈페이지에서 참조할 때의 경로
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-locale: 'ko'
+# 한국어 UI
+locale: "ko"
 
 collections:
+  # ─────────────────────────────────────────────
+  # 공지사항  →  content/notices  →  loadNotices()
+  # ─────────────────────────────────────────────
   - name: "notices"
     label: "공지사항"
+    label_singular: "공지"
     folder: "content/notices"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{fields.date}} · {{fields.title}}"
+    sort_field: "date"
     fields:
-      - label: "제목"
-        name: "title"
-        widget: "string"
-      - label: "날짜"
-        name: "date"
-        widget: "datetime"
-        format: "YYYY.MM.DD"
-      - label: "종류"
-        name: "type"
-        widget: "select"
-        options: ["공지", "일반"]
-      - label: "내용"
-        name: "body"
-        widget: "markdown"
-      - label: "센터"
-        name: "center"
-        widget: "select"
-        options: ["전체", "방배센터", "분당센터", "송도센터"]
+      - { name: "title", label: "제목", widget: "string" }
+      - { name: "type", label: "분류", widget: "select", options: ["공지", "안내", "이벤트", "모집"], default: "공지" }
+      - { name: "date", label: "날짜", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: "body", label: "내용", widget: "text" }
 
+  # ─────────────────────────────────────────────
+  # 갤러리  →  content/gallery  →  loadGallery()
+  #   center 값은 반드시 방배센터/분당센터/송도센터 중 하나
+  # ─────────────────────────────────────────────
   - name: "gallery"
     label: "갤러리"
+    label_singular: "갤러리 게시물"
     folder: "content/gallery"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{fields.date}} · {{fields.center}} · {{fields.title}}"
+    sort_field: "date"
     fields:
-      - label: "제목"
-        name: "title"
-        widget: "string"
-      - label: "날짜"
-        name: "date"
-        widget: "datetime"
-        format: "YYYY.MM.DD"
-      - label: "센터"
-        name: "center"
+      - { name: "title", label: "제목", widget: "string" }
+      - name: "center"
+        label: "센터"
         widget: "select"
         options: ["방배센터", "분당센터", "송도센터"]
-      - label: "종류"
-        name: "type"
+      - name: "type"
+        label: "유형"
         widget: "select"
-        options: ["사진", "영상", "글"]
-      - label: "대표 이미지"
-        name: "image"
-        widget: "image"
-        required: false
-      - label: "유튜브 링크"
-        name: "youtube"
-        widget: "string"
-        required: false
-      - label: "내용"
-        name: "body"
-        widget: "markdown"
+        options: ["대회", "수업", "행사", "프로젝트"]
+        default: "수업"
+      - { name: "date", label: "날짜", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: "image", label: "사진", widget: "image", required: false }
+      - { name: "youtube", label: "유튜브 주소 (선택)", widget: "string", required: false, hint: "영상이 있으면 유튜브 링크를 붙여넣으세요. 사진보다 우선 표시됩니다." }
+      - { name: "body", label: "설명 (선택)", widget: "text", required: false }
 
+  # ─────────────────────────────────────────────
+  # 수상 실적  →  content/awards  →  loadAwards()
+  #   year 값은 반드시 2026/2025/2024 중 하나
+  # ─────────────────────────────────────────────
   - name: "awards"
     label: "수상 실적"
+    label_singular: "수상 기록"
     folder: "content/awards"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{fields.date}} · {{fields.title}}"
+    sort_field: "date"
     fields:
-      - label: "대회명"
-        name: "title"
-        widget: "string"
-      - label: "수상 내용"
-        name: "award"
-        widget: "string"
-      - label: "날짜"
-        name: "date"
-        widget: "datetime"
-        format: "YYYY.MM.DD"
-      - label: "연도"
-        name: "year"
+      - { name: "title", label: "대회/프로젝트명", widget: "string" }
+      - { name: "award", label: "수상 내역", widget: "string", hint: "예: 대상, 금상, 우수상" }
+      - name: "year"
+        label: "연도 (홈페이지 탭 분류)"
         widget: "select"
         options: ["2026", "2025", "2024"]
-      - label: "센터"
-        name: "center"
-        widget: "select"
-        options: ["방배센터", "분당센터", "송도센터"]
-      - label: "학생 이름"
-        name: "student"
-        widget: "string"
+        hint: "홈페이지의 연도 탭에 들어갈 분류입니다."
+      - { name: "date", label: "수상일", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: "center", label: "센터", widget: "select", options: ["방배센터", "분당센터", "송도센터"] }
+      - { name: "student", label: "학생/팀명 (선택)", widget: "string", required: false }
+      - { name: "image", label: "대표 사진 (선택)", widget: "image", required: false }
+      - name: "gallery"
+        label: "추가 사진 (선택)"
+        widget: "list"
         required: false
-      - label: "이미지"
-        name: "image"
-        widget: "image"
-        required: false
-      - label: "내용"
-        name: "body"
-        widget: "markdown"
-        required: false
+        field: { name: "image", label: "사진", widget: "image" }
+        hint: "대표 사진 외에 더 보여줄 사진들. 카드를 펼치면 함께 표시됩니다."
