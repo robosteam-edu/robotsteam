@@ -1055,7 +1055,8 @@ async function loadAwards() {
       const center  = (text.match(/^center:\s*(.+)$/m) || [])[1] || '';
       const student = (text.match(/^student:\s*(.+)$/m) || [])[1] || '';
       const image   = (text.match(/^image:\s*(.+)$/m) || [])[1] || '';
-      return { title, award, date: date.slice(0,10).replace(/[.\/]/g,'-'), year, center, student, image };
+      const body    = text.replace(/^\uFEFF?\s*---[\s\S]*?---\n?/, '').trim();
+      return { title, award, date: date.slice(0,10).replace(/[.\/]/g,'-'), year, center, student, image, body };
     }));
 
     items.sort((a,b) => b.date.localeCompare(a.date));
@@ -1066,15 +1067,23 @@ async function loadAwards() {
       if (!panel) return;
       const filtered = items.filter(i => i.year === year);
       if (!filtered.length) return;
-      panel.innerHTML = `<div class="ablock">` + filtered.map(item => `
-        <div style="display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);">
+      panel.innerHTML = `<div class="ablock">` + filtered.map(item => {
+        const awId = 'aw_' + Math.random().toString(36).slice(2,8);
+        const hasBody = item.body && item.body.length > 0;
+        const bodyHtml = hasBody
+          ? `<div class="awbody" id="${awId}_b" style="display:none;margin:0 0 16px 80px;padding:14px 16px;background:rgba(255,255,255,.04);border-radius:10px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.9;">${item.body.replace(/\n/g,'<br/>')}</div>`
+          : '';
+        return `
+        <div ${hasBody ? `onclick="toggleAward('${awId}')" style="cursor:pointer;"` : ''} data-aw="${awId}" style="display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);${hasBody ? 'cursor:pointer;' : ''}">
           ${item.image ? `<img src="${item.image}" alt="${item.title}" style="width:64px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0;"/>` : `<div style="width:64px;height:64px;background:rgba(255,255,255,.08);border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;">🏆</div>`}
-          <div>
+          <div style="flex:1;">
             <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:2px;">${item.award}</div>
             <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">${item.title}</div>
             <div style="font-size:12px;color:rgba(255,255,255,.5);">${item.center}${item.student ? ' · ' + item.student : ''} · ${item.date}</div>
           </div>
-        </div>`).join('') + `</div>`;
+          ${hasBody ? `<span id="${awId}_arrow" style="color:rgba(255,255,255,.4);font-size:13px;flex-shrink:0;transition:transform .2s;">▼</span>` : ''}
+        </div>${bodyHtml}`;
+      }).join('') + `</div>`;
     });
 
   } catch(e) { console.log('수상 실적 로드 실패:', e); }
@@ -1145,6 +1154,15 @@ function makeGCard(item) {
   </div>`;
 }
 loadGallery();
+
+function toggleAward(id) {
+  const body = document.getElementById(id + '_b');
+  const arrow = document.getElementById(id + '_arrow');
+  if (!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
 
 function toggleGCard(id) {
   const card = document.getElementById(id);
