@@ -1,0 +1,10 @@
+---
+title: 2026년 RoboCup South Korea Open (26.02.28)
+award: 레스큐베이직 우수상, Cospace rescue U12 2위, Autonomous Driving FS 연구일지  우수상,
+  Autonomous Driving FS Super team 1위, Autonomous Diving U12 1위 2위, Autonomous
+  Diving U12 수퍼팀 1위, 레스큐 메이즈 베이직 우수상 3팀
+date: 2026.06.04
+year: "2026"
+center: 방배센터
+image: /images/uploads/kakaotalk_20260604_175939172.jpg
+---
