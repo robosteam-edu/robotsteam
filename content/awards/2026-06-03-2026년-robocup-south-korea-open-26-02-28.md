@@ -1,5 +1,5 @@
 ---
-title: 2026년 RoboCup South Korea Open (26.02.28) / 2026 RoboRAVE Korea Open(26.05.18)
+title: 2026년 로보스팀 방배센터 수상실적
 award: 9개 부문 입상 / 3개 부문 입상
 date: 2026.06.04
 year: "2026"
