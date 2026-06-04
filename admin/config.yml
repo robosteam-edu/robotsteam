@@ -2,17 +2,12 @@ backend:
   name: git-gateway
   branch: main
 
-# 업로드한 이미지가 저장되는 폴더와, 그 이미지를 홈페이지에서 참조할 때의 경로
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-# 한국어 UI
 locale: "ko"
 
 collections:
-  # ─────────────────────────────────────────────
-  # 공지사항  →  content/notices  →  loadNotices()
-  # ─────────────────────────────────────────────
   - name: "notices"
     label: "공지사항"
     label_singular: "공지"
@@ -27,10 +22,6 @@ collections:
       - { name: "date", label: "날짜", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
       - { name: "body", label: "내용", widget: "text" }
 
-  # ─────────────────────────────────────────────
-  # 갤러리  →  content/gallery  →  loadGallery()
-  #   center 값은 반드시 방배센터/분당센터/송도센터 중 하나
-  # ─────────────────────────────────────────────
   - name: "gallery"
     label: "갤러리"
     label_singular: "갤러리 게시물"
@@ -55,10 +46,6 @@ collections:
       - { name: "youtube", label: "유튜브 주소 (선택)", widget: "string", required: false, hint: "영상이 있으면 유튜브 링크를 붙여넣으세요. 사진보다 우선 표시됩니다." }
       - { name: "body", label: "설명 (선택)", widget: "text", required: false }
 
-  # ─────────────────────────────────────────────
-  # 수상 실적  →  content/awards  →  loadAwards()
-  #   year 값은 반드시 2026/2025/2024 중 하나
-  # ─────────────────────────────────────────────
   - name: "awards"
     label: "수상 실적"
     label_singular: "수상 기록"
