@@ -1310,12 +1310,12 @@ function makeGCard(item) {
   }
   const bodyHtml = item.body ? `<div style="margin-top:12px;font-size:14px;color:var(--t2);line-height:1.8;border-top:1px solid var(--bd);padding-top:12px;">${item.body.replace(/\n/g,'<br/>')}</div>` : '';
   const cardId = 'gc_' + Math.random().toString(36).slice(2,8);
-  return `<div class="gcard" id="${cardId}" style="background:#fff;border-radius:14px;padding:16px;border:1.5px solid var(--bd);cursor:pointer;transition:box-shadow .2s;" onclick="toggleGCard('${cardId}')">
+  return `<div class="gcard" id="${cardId}" style="background:#fff;border-radius:14px;padding:16px;border:1.5px solid var(--bd);">
     ${media}
     <div style="font-size:11px;color:var(--o);font-weight:700;margin-bottom:4px;">${item.center} · ${item.type}</div>
     <div style="font-size:14px;font-weight:700;color:var(--bk);margin-bottom:4px;">${item.title}</div>
     <div style="font-size:12px;color:var(--t3);">${item.date}</div>
-    <div class="gbody" style="display:none;">${bodyHtml}</div>
+    ${bodyHtml}
   </div>`;
 }
 loadGallery();
