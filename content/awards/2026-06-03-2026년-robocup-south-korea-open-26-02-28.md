@@ -1,8 +1,8 @@
 ---
 title: 2026년 로보스팀 방배센터 수상실적
-award: 2개 국내외 대회 12개 부문 입상
-date: 2026.06.04
+award: 2개 국내외 대회 12개팀 입상
 year: "2026"
+date: 2026.06.04
 center: 방배센터
 image: /images/uploads/kakaotalk_20260604_175939172.jpg
 ---
