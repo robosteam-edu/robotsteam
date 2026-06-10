@@ -1069,70 +1069,194 @@ async function cachedDirFetch(dir, ttlMs) {
   return items;
 }
 
-async function loadAwards() {
+// ── 수상 실적: 정적 데이터(하이브리드 기본값) ──
+const AWARDS_STATIC = [
+  {
+    "title": "2026년 로보스팀 방배센터 수상실적",
+    "award": "2개 국내외 대회 12개팀 입상",
+    "year": "2026",
+    "date": "2026-06-04",
+    "center": "방배센터",
+    "image": "/images/uploads/kakaotalk_20260604_175939172.jpg",
+    "gallery": [],
+    "body": "* 2026 RoboCup South Korea Open\n  - 레스큐베이직 우수상 \n  - Cospace rescue U12 2위\n  - Autonomous Driving FS 연구일지  우수상  \n  - Autonomous Driving FS Super team 1위\n  - Autonomous Diving U12 1위 2위\n  - Autonomous Diving U12 수퍼팀 1위 \n  - 레스큐 메이즈 베이직 우수상 3팀\n* 2026 RoboRAVE Korea Open\n  - SUMO Spike Junior 1위 4위 \n  - SUMO Spike Senior 3위",
+    "student": ""
+  },
+  {
+    "title": "2026년 로보스팀 분당센터 수상실적",
+    "award": "9개 국내외 대회 15개팀 입상",
+    "year": "2026",
+    "date": "2026-06-04",
+    "center": "분당센터",
+    "image": "/images/uploads/kakaotalk_20260604_175949849.jpg",
+    "gallery": [],
+    "body": "* 2026 USSEO(미국 과학&공학 올림피아드) 결선 진출\n* 2026  RoboRAVE 한국대회 로봇씨름 Open 챔피언상 수상(한국AI로봇산업협회장상)\n* 2026 First LEGO League Asia Open Championship 2025-2026 EXPLORE IN Bejing (8월 출전 예정)\n* 2025-2026 First LEGO League Asia Open Championship in 베이징 참가예정(8월)\n* 2025-2026 FLL 한국대회 Challenge부문 - Rising Star Award 수상 \n* 2026 월드로봇리그_ LEGO Soccer 챔피언상( 8월 일본대회 출전 예정)\n* 2026  로보컵 Rescue Simulation 준우승 - AI로봇산업협회장상 수상(로보컵 월드챔피언쉽 진출)\n* 2026 MRC IN GREECE - Soccer 주니어 부문 1, 2, 3위, Rally 부문 1, 3위\n* 2026 US Coding Olympiad 금상 2명, 은상 1명, 동상 1명",
+    "student": ""
+  },
+  {
+    "title": "2026년 로보스팀 송도센터 수상실적",
+    "award": "6개 국내외 대회 10개팀 입상",
+    "year": "2026",
+    "date": "2026-06-09",
+    "center": "송도센터",
+    "image": "/images/uploads/01.png",
+    "gallery": [
+      "/images/uploads/장려상_고건우.png",
+      "/images/uploads/1.png"
+    ],
+    "body": "* 2026 Robotex Aisa Sumo 1kg 1위, 2위\n* 2025-2026 FLL(First LEGO League) 수상\n* 2026 IT코딩발명 경진대회 동상\n* 2026 RoboRAVE Korea 세계대회 진출\n* 2026 교내 학생발명품 경진대회 우수상\n* 2026 인천학생과학발명품경진대회 본선 장려상\n* 2026 인천학생과학토론 경진대회 최우수상",
+    "student": ""
+  },
+  {
+    "title": "2025년 로보스팀 방배센터 수상실적",
+    "award": "3개 국내외 대회 17개팀 입상",
+    "year": "2025",
+    "date": "2026-06-10",
+    "center": "방배센터",
+    "image": "/images/uploads/kakaotalk_20260604_175813781.jpg",
+    "gallery": [],
+    "body": "* 로보컵 주니어 \n  축구 라이트웨이트 U19 연구일지상\n  cospace rescue U12 1위,연구일지상 \n  Autonomous Driving  FS 1위 3위 \n\n* 2025 창의코딩대회\n  Cospace Auto Driving FS 1위 ,2위, 베스트 리서치상 \n  Cospace Auto Driving U12 1위,2위, 슈퍼팀상\n  Cospace Auto Driving U19 ,1위,2위 \n  Cospace Rescue U19  2위 \n* 2025 로보컵 아시아퍼시픽 아부다비(25.11.11~15)\n  (2025 Robocup Asia-Pacific Abudhabi)\n  Autonomous Driving First step 1위 \n  Autonomous Driving Super Team 1위 \n  Cospace rescue U12 Frienly Challenge 1위 \n  Autonomous Driving U12 3위 \n  Autonomous Driving U19 3위",
+    "student": ""
+  },
+  {
+    "title": "2025년 로보스팀 분당센터 수상실적",
+    "award": "8개 대회 11개팀 입상",
+    "year": "2025",
+    "date": "2026-06-10",
+    "center": "분당센터",
+    "image": "/images/uploads/kakaotalk_20260604_175949849_05.jpg",
+    "gallery": [],
+    "body": "* 2025 로보컵 싱가포르 대회 CoSpace Rescue U- 19 8강진출\n* 2025 MRC Greece 로봇올림피아드 대회 로봇축구 종목 4위\n* 2025 발명창작 경기도 대회 진출\n* 2025 한국창의코딩대회 CoSpace Rescue U-19 1등, 3등, 연구일지상(11월 아부다비참가)\n* 2025 WRO 한국대회 초등로보미션 장려상\n* 2026 MRC 로봇올림피아드 한국대회 RobotFootball Junior 2위, 3위 (2026년 그리스대회 참가)\n* RCAP 2025 IN AbuDhabi 출전 - Friendship Tournament 우승, Influence Award\n* 2025 국제로봇콘테스트 AIR SPORTS 경진대회 초등부(로봇농구) 전체 2위",
+    "student": ""
+  },
+  {
+    "title": "2025년 로보스팀 송도센터 수상실적",
+    "award": "7개 국내외 대회 9팀 입상",
+    "year": "2025",
+    "date": "2026-06-10",
+    "center": "송도센터",
+    "image": "/images/uploads/001.jpg",
+    "gallery": [],
+    "body": "* 2024-2025 FLL(First LEGO League) \n  - 베스트 팀워크상, 효과적인 솔루션상\n* 2025 교내 발명품 경진대회 우수상 2팀\n* 2025 IT코딩 발명품 경진대회 장려상\n* 2025 MRC Greece 8강\n* 2025 Robotex Koera 세계대회 진출\n* 2025 K-EDU 창의력 경진대회 우수상\n* 2025 국제로봇콘테스트(IRC) \n  - 기술표준원장상 1팀\n  - 로봇산업진흥원장상 2팀 \n* 코딩활용능력자격시험(COS/COS Pro) \n - 총 48명 합격",
+    "student": ""
+  },
+  {
+    "title": "2024년 로보스팀 방배센터 수상실적",
+    "award": "6개 국내외  대회 18팀 입상",
+    "year": "2024",
+    "date": "2026-06-10",
+    "center": "방배센터",
+    "image": "/images/uploads/kakaotalk_20260604_175741602.jpg",
+    "gallery": [],
+    "body": "* 2024 RoboCup Korea\n  - Autonomous Driving Fs 1위/2위/3위\n  - Autonomous Driving U12  2위\n  - Cospace Rescue U19 연구일지상\n  - Autonomous Driving Fs 연구일지상\n* 2024 MRC 그리스세계대회 로봇씨름 1Kg  2위\n* 2024 RoboCup 텐진 대회  Super team 1위, Autonomous Driving 3위\n* 2024 Robotex Korea 로봇씨름 우수상 조1위 3팀(세계대회진출권 획득)\n* 2024 한국창의코딩대회 \n  - Cospace Rescue U19 1위\n  - 자율주행 챌린지 U19 2위\n  - Best research\n  - Rookie challenge-라이징스타상 \n  - Rookie challenge-슈퍼루키상\n  - Rookie challenge-엑설런트루키상\n* 2024 MRC USA\n  - 스모 1kg 1위, 2위, 3위",
+    "student": ""
+  },
+  {
+    "title": "2024년 로보스팀 분당센터 수상실적",
+    "award": "3개 국내외 대회 3개팀 입상",
+    "year": "2024",
+    "date": "2026-06-10",
+    "center": "분당센터",
+    "image": "/images/uploads/kakaotalk_20260604_175949849_06.jpg",
+    "gallery": [],
+    "body": "* RoboTex Korea 대회 로봇축구 주니어 챔피언상 수상\n* 로보컵 주니어 한국대회 CoSpace Rescue U-19 연구일지상 수상\n* FLL 세계대회 IN 홍콩대회 출전 - innovation project Award 수상",
+    "student": ""
+  },
+  {
+    "title": "2024년 로보스팀 송도센터 수상실적",
+    "award": "6개 국내외 대회 12팀 입상",
+    "year": "2024",
+    "date": "2026-06-10",
+    "center": "송도센터",
+    "image": "/images/uploads/kakaotalk_20240503_025522503_01.jpg",
+    "gallery": [],
+    "body": "* 2023-2024 FLL \n  - Outstanding Award, Teamwork Award\n* 2024 MRC Greece\n  - 샷풋 3위, 풋볼 4위   \n* 2024 Robotex Korea\n  - 풋볼주니어 3위, 풋볼시니어 2위\n  - 스모, 라인 팔로윙 베스트팀 어워드\n* 2024 MRC USA\n  - 풋볼 2위, 4위\n* 2024 Robotex Asia\n - 스모 1kg 2위, 3위\n* 코딩활용능력자격시험(COS/COS Pro) \n - 총 26명 합격",
+    "student": ""
+  }
+];
+
+// 마크다운/정적 공통 렌더러
+function renderAwards(items) {
   const panelMap = { '2026': 'aw25', '2025': 'aw24', '2024': 'aw23' };
+  const centerRank = c => {
+    if (/방배/.test(c)) return 0;
+    if (/분당/.test(c)) return 1;
+    if (/송도/.test(c)) return 2;
+    return 3;
+  };
+  Object.entries(panelMap).forEach(([year, panelId]) => {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    const filtered = items.filter(i => i.year === year);
+    if (!filtered.length) return;
+    filtered.sort((a, b) => {
+      const r = centerRank(a.center) - centerRank(b.center);
+      return r !== 0 ? r : b.date.localeCompare(a.date);
+    });
+    panel.innerHTML = `<div class="ablock">` + filtered.map(item => {
+      const awId = 'aw_' + Math.random().toString(36).slice(2,8);
+      const hasGallery = item.gallery && item.gallery.length > 0;
+      const hasContent = (item.body && item.body.length > 0) || hasGallery;
+      const galleryHtml = hasGallery
+        ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:${item.body ? '12px' : '0'};">` +
+          item.gallery.map(src => `<img src="${src}" alt="${item.title}" style="width:140px;height:105px;object-fit:cover;border-radius:8px;cursor:pointer;" onclick="event.stopPropagation();window.open('${src}','_blank')"/>`).join('') +
+          `</div>`
+        : '';
+      const bodyInner = (item.body && item.body.length > 0) ? item.body.replace(/\n/g,'<br/>') : '';
+      const innerHtml = hasContent
+        ? `<div class="awbody" id="${awId}_b" style="display:none;margin:0 0 16px 80px;padding:14px 16px;background:rgba(255,255,255,.04);border-radius:10px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.9;">${bodyInner}${galleryHtml}</div>`
+        : '';
+      return `
+      <div ${hasContent ? `onclick="toggleAward('${awId}')" style="cursor:pointer;"` : ''} data-aw="${awId}" style="display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);${hasContent ? 'cursor:pointer;' : ''}">
+        ${item.image ? `<img src="${item.image}" alt="${item.title}" style="width:64px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0;"/>` : `<div style="width:64px;height:64px;background:rgba(255,255,255,.08);border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;">🏆</div>`}
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:2px;">${item.award}</div>
+          <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">${item.title}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.5);">${item.center}${item.student ? ' · ' + item.student : ''} · ${item.date}</div>
+        </div>
+        ${hasContent ? `<span id="${awId}_arrow" style="color:rgba(255,255,255,.4);font-size:13px;flex-shrink:0;transition:transform .2s;">▼</span>` : ''}
+      </div>${innerHtml}`;
+    }).join('') + `</div>`;
+  });
+}
+
+// 마크다운 파싱 → 표준 객체
+function parseAwardMd(text) {
+  const title   = (text.match(/^title:\s*(.+)$/m) || [])[1] || '';
+  const award   = (text.match(/^award:\s*(.+)$/m) || [])[1] || '';
+  const date    = (text.match(/^date:\s*(.+)$/m) || [])[1] || '';
+  const year    = ((text.match(/^year:\s*(.+)$/m) || [])[1] || '').replace(/['"]/g, '').trim();
+  const center  = (text.match(/^center:\s*(.+)$/m) || [])[1] || '';
+  const student = (text.match(/^student:\s*(.+)$/m) || [])[1] || '';
+  const image   = (text.match(/^image:\s*(.+)$/m) || [])[1] || '';
+  let gallery = [];
+  const fm = (text.match(/^\uFEFF?\s*---\n([\s\S]*?)\n---/) || [])[1] || '';
+  const galBlock = fm.match(/^gallery:\s*\n((?:[ \t]*-[ \t]*.+\n?)+)/m);
+  if (galBlock) {
+    gallery = galBlock[1].split('\n')
+      .map(l => (l.match(/^[ \t]*-[ \t]*(.+?)[ \t]*$/) || [])[1])
+      .filter(Boolean)
+      .map(s => s.replace(/^["']|["']$/g, '').trim());
+  }
+  const body = text.replace(/^\uFEFF?\s*---[\s\S]*?---\n?/, '').trim();
+  const cleanTitle = title.replace(/^["']|["']$/g, '').trim();
+  const cleanAward = award.replace(/^["']|["']$/g, '').trim();
+  return { title: cleanTitle, award: cleanAward, date: date.slice(0,10).replace(/[.\/]/g,'-'), year, center: center.trim(), student, image, gallery, body };
+}
+
+// 하이브리드 로드: 정적 먼저 그리고, fetch 성공 시 덮어쓰기
+async function loadAwards() {
+  // 1) 정적 데이터로 즉시 렌더 (항상 화면에 보장)
+  try { renderAwards(AWARDS_STATIC); } catch(e) { console.log('정적 수상 렌더 실패:', e); }
+
+  // 2) GitHub에서 최신 데이터 시도 → 성공 시 덮어쓰기, 실패 시 정적 유지
   try {
     const cached = await cachedDirFetch('awards');
     if (!cached) return;
-
-    const items = await Promise.all(cached.map(async f => {
-      const text = f.text;
-      const title   = (text.match(/^title:\s*(.+)$/m) || [])[1] || '';
-      const award   = (text.match(/^award:\s*(.+)$/m) || [])[1] || '';
-      const date    = (text.match(/^date:\s*(.+)$/m) || [])[1] || '';
-      const year    = ((text.match(/^year:\s*(.+)$/m) || [])[1] || '').replace(/['"]/g, '').trim();
-      const center  = (text.match(/^center:\s*(.+)$/m) || [])[1] || '';
-      const student = (text.match(/^student:\s*(.+)$/m) || [])[1] || '';
-      const image   = (text.match(/^image:\s*(.+)$/m) || [])[1] || '';
-      // 추가 사진(gallery): front matter 안에서만 YAML 리스트를 읽음
-      let gallery = [];
-      const fm = (text.match(/^\uFEFF?\s*---\n([\s\S]*?)\n---/) || [])[1] || '';
-      const galBlock = fm.match(/^gallery:\s*\n((?:[ \t]*-[ \t]*.+\n?)+)/m);
-      if (galBlock) {
-        gallery = galBlock[1].split('\n')
-          .map(l => (l.match(/^[ \t]*-[ \t]*(.+?)[ \t]*$/) || [])[1])
-          .filter(Boolean)
-          .map(s => s.replace(/^["']|["']$/g, '').trim());
-      }
-      const body    = text.replace(/^\uFEFF?\s*---[\s\S]*?---\n?/, '').trim();
-      return { title, award, date: date.slice(0,10).replace(/[.\/]/g,'-'), year, center, student, image, gallery, body };
-    }));
-
-    items.sort((a,b) => b.date.localeCompare(a.date));
-
-    // 연도별 패널에 삽입
-    Object.entries(panelMap).forEach(([year, panelId]) => {
-      const panel = document.getElementById(panelId);
-      if (!panel) return;
-      const filtered = items.filter(i => i.year === year);
-      if (!filtered.length) return;
-      panel.innerHTML = `<div class="ablock">` + filtered.map(item => {
-        const awId = 'aw_' + Math.random().toString(36).slice(2,8);
-        const hasGallery = item.gallery && item.gallery.length > 0;
-        const hasContent = (item.body && item.body.length > 0) || hasGallery;
-        const galleryHtml = hasGallery
-          ? `<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:${item.body ? '12px' : '0'};">` +
-            item.gallery.map(src => `<img src="${src}" alt="${item.title}" style="width:140px;height:105px;object-fit:cover;border-radius:8px;cursor:pointer;" onclick="event.stopPropagation();window.open('${src}','_blank')"/>`).join('') +
-            `</div>`
-          : '';
-        const bodyInner = (item.body && item.body.length > 0) ? item.body.replace(/\n/g,'<br/>') : '';
-        const innerHtml = hasContent
-          ? `<div class="awbody" id="${awId}_b" style="display:none;margin:0 0 16px 80px;padding:14px 16px;background:rgba(255,255,255,.04);border-radius:10px;font-size:13px;color:rgba(255,255,255,.75);line-height:1.9;">${bodyInner}${galleryHtml}</div>`
-          : '';
-        return `
-        <div ${hasContent ? `onclick="toggleAward('${awId}')" style="cursor:pointer;"` : ''} data-aw="${awId}" style="display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08);${hasContent ? 'cursor:pointer;' : ''}">
-          ${item.image ? `<img src="${item.image}" alt="${item.title}" style="width:64px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0;"/>` : `<div style="width:64px;height:64px;background:rgba(255,255,255,.08);border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;">🏆</div>`}
-          <div style="flex:1;">
-            <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:2px;">${item.award}</div>
-            <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">${item.title}</div>
-            <div style="font-size:12px;color:rgba(255,255,255,.5);">${item.center}${item.student ? ' · ' + item.student : ''} · ${item.date}</div>
-          </div>
-          ${hasContent ? `<span id="${awId}_arrow" style="color:rgba(255,255,255,.4);font-size:13px;flex-shrink:0;transition:transform .2s;">▼</span>` : ''}
-        </div>${innerHtml}`;
-      }).join('') + `</div>`;
-    });
-
-  } catch(e) { console.log('수상 실적 로드 실패:', e); }
+    const items = cached.map(f => parseAwardMd(f.text));
+    if (!items.length) return;
+    renderAwards(items);
+  } catch(e) { console.log('수상 실적 최신화 실패(정적 유지):', e); }
 }
 loadAwards();
 
