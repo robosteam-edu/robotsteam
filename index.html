@@ -120,9 +120,11 @@ nav{
 .tag::before{content:"";width:22px;height:3px;background:var(--o);border-radius:2px}
 h2.tit{font-size:clamp(26px,3.5vw,42px);font-weight:900;letter-spacing:-.02em;line-height:1.15;color:var(--bk)}
 h2.tit em{font-style:normal;color:var(--o)}
-.lead{margin-top:12px;font-size:16px;font-weight:300;color:var(--t2);line-height:1.75;max-width:540px}
+.lead{margin-top:12px;font-size:16px;font-weight:300;color:var(--t2);line-height:1.75;max-width:540px;word-break:keep-all}
 .sec-c .lead{margin-left:auto;margin-right:auto}
 .sec-c{text-align:center}
+/* 한글 단어단위 줄바꿈(모바일 가독성) 일괄 적용 */
+.tit,.fdesc,.pstep-t,.pstep-d,.ctit,.cdesc,.about-txt,.faqq-t,.faqa{word-break:keep-all}
 
 /* reveal */
 .r{opacity:0;transform:translateY(20px);transition:opacity .55s,transform .55s}
