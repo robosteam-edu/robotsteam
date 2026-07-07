@@ -29,7 +29,7 @@ collections:
  
   # ─────────────────────────────────────────────
   # 갤러리  →  content/gallery  →  loadGallery()
-  #   center 값은 반드시 방배센터/분당센터/송도센터 중 하나
+  #   center 값은 반드시 방배센터/분당센터/송도센터/용인수지센터/춘천센터 중 하나
   # ─────────────────────────────────────────────
   - name: "gallery"
     label: "갤러리"
@@ -44,7 +44,7 @@ collections:
       - name: "center"
         label: "센터"
         widget: "select"
-        options: ["방배센터", "분당센터", "송도센터"]
+        options: ["방배센터", "분당센터", "송도센터", "용인수지센터", "춘천센터"]
       - name: "type"
         label: "유형"
         widget: "select"
@@ -76,7 +76,7 @@ collections:
         options: ["2026", "2025", "2024"]
         hint: "홈페이지의 연도 탭에 들어갈 분류입니다."
       - { name: "date", label: "수상일", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
-      - { name: "center", label: "센터", widget: "select", options: ["방배센터", "분당센터", "송도센터"] }
+      - { name: "center", label: "센터", widget: "select", options: ["방배센터", "분당센터", "송도센터", "용인수지센터", "춘천센터"] }
       - { name: "student", label: "학생/팀명 (선택)", widget: "string", required: false }
       - { name: "image", label: "대표 사진 (선택)", widget: "image", required: false }
       - name: "gallery"
@@ -86,4 +86,3 @@ collections:
         field: { name: "image", label: "사진", widget: "image" }
         hint: "대표 사진 외에 더 보여줄 사진들. 카드를 펼치면 함께 표시됩니다."
       - { name: "body", label: "내용 (선택)", widget: "text", required: false, hint: "종목별 세부 결과 등. 홈페이지에서 카드를 펼치면 표시됩니다." }
- 
