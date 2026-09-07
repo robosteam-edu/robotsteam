@@ -1219,6 +1219,13 @@ const AWARDS_STATIC = [
 
 // 마크다운/정적 공통 렌더러
 function renderAwards(items) {
+  // 센터명 정규화: 정적/실시간(GitHub) 데이터 어디서 오든 '용인수지' 관련 옛 명칭을 '수지'로 통일
+  items = items.map(i => ({
+    ...i,
+    center: (i.center || '').replace(/용인\s*수지/g, '수지'),
+    title: (i.title || '').replace(/용인\s*수지/g, '수지'),
+    body: (i.body || '').replace(/용인\s*수지/g, '수지')
+  }));
   const panelMap = { '2026': 'aw25', '2025': 'aw24', '2024': 'aw23' };
   const centerRank = c => {
     if (/방배/.test(c)) return 0;
