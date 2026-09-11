@@ -445,6 +445,9 @@ h2.tit em{font-style:normal;color:var(--o)}
 .clnk{font-size:12px;font-weight:700;color:var(--o);margin-top:8px;transition:letter-spacing .2s}
 .clnk:hover{letter-spacing:.02em}
 .cph{font-size:12.5px;font-weight:700;color:var(--t2);display:flex;align-items:center;gap:4px;}
+.cph a{color:inherit;text-decoration:none;}
+.cph a:hover{text-decoration:underline;}
+.mo-br{display:none}
 
 /* ━━━━━━━━━━━━━━━━ CTA ━━━━━━━━━━━━━━━━ */
 .cta{background:var(--y);padding:96px 40px;text-align:center;position:relative;overflow:hidden}
@@ -581,6 +584,7 @@ footer{background:var(--g);border-top:1px solid var(--bd);padding:52px 40px 36px
 
 /* ━━━━━━━━━━━━━━━━ MEDIA 600px ━━━━━━━━━━━━━━━━ */
 @media(max-width:600px){
+  .mo-br{display:block}
   nav{height:56px;padding:0 16px}
   .nav-logo img{height:22px;top:8px}
   .nav-btn{font-size:12px;padding:7px 12px}
@@ -776,7 +780,7 @@ footer{background:var(--g);border-top:1px solid var(--bd);padding:52px 40px 36px
   <div class="si">
     <div class="sec-c r">
       <div class="tag" style="justify-content:center;margin-left:auto;margin-right:auto;">Global Partnership</div>
-      <h2 class="tit">MATRIX와 함께하는 <em>다음 단계 로봇교육</em></h2>
+      <h2 class="tit">MATRIX와 함께하는<br class="mo-br"/> <em>다음 단계 로봇교육</em></h2>
       <p class="lead">로보스팀은 대만 MATRIX Robotics(KK Intelligent Technology)와 정식 파트너십을 체결했습니다. 레고 로봇코딩을 마친 13세 이상 학생들을 위한 대회형 심화 과정으로, 기존 레고 교육과정은 그대로 유지하며 선택 가능한 다음 단계로 도입합니다.</p>
     </div>
 
@@ -941,11 +945,11 @@ footer{background:var(--g);border-top:1px solid var(--bd);padding:52px 40px 36px
   <div class="si">
     <div class="sec-c r"><div class="tag" style="justify-content:center;margin-left:auto;margin-right:auto;">Partner Centers</div><h2 class="tit">함께하는 <em>파트너 센터</em></h2><p class="lead">전국 5개 파트너 센터에서<br/>동일한 ROBO STEAM의 교육 철학으로<br/>아이를 만납니다.</p></div>
     <div class="cgrid r">
-      <div class="ctr"><div class="cnum">01</div><div class="creg">서울 방배</div><div class="cnm">ROBO STEAM 방배센터</div><div class="cph">📞 02-6338-6383</div><div class="cdiv"></div><div class="cdes">방배 지역 가족들과 함께하는 창의력 중심의 로봇코딩 교육.</div><a href="https://blog.naver.com/nikyzzang" target="_blank" class="clnk">문의하기 →</a></div>
-      <div class="ctr"><div class="cnum">02</div><div class="creg">경기 분당</div><div class="cnm">ROBO STEAM 분당센터</div><div class="cph">📞 031-717-2023</div><div class="cdiv"></div><div class="cdes">분당 지역 미래 인재를 키우는 ROBO STEAM 파트너 센터.</div><a href="https://blog.naver.com/learnsteamrobot" target="_blank" class="clnk">문의하기 →</a></div>
-      <div class="ctr"><div class="cnum">03</div><div class="creg">인천 송도</div><div class="cnm">ROBO STEAM 송도센터</div><div class="cph">📞 032-710-3334</div><div class="cdiv"></div><div class="cdes">송도 국제도시에서 글로벌 감각을 키우는 STEAM 로봇코딩 교육.</div><a href="https://blog.naver.com/songdosmartlearning" target="_blank" class="clnk">문의하기 →</a></div>
-      <div class="ctr"><div class="cnum">04</div><div class="creg">경기 수지</div><div class="cnm">ROBO STEAM 수지센터</div><div class="cph">📞 031-265-2050</div><div class="cdiv"></div><div class="cdes">수지 지역 아이들의 창의적 성장을 이끄는 로봇코딩 교육.</div><a href="https://link24.kr/4bkODiw" target="_blank" class="clnk">문의하기 →</a></div>
-      <div class="ctr"><div class="cnum">05</div><div class="creg">강원 춘천</div><div class="cnm">ROBO STEAM 춘천센터</div><div class="cph">📞 0507-1355-0435</div><div class="cdiv"></div><div class="cdes">춘천 지역에서 미래 역량을 키우는 STEAM 로봇코딩 교육.</div><a href="https://blog.naver.com/tonybricks" target="_blank" class="clnk">문의하기 →</a></div>
+      <div class="ctr"><div class="cnum">01</div><div class="creg">서울 방배</div><div class="cnm">ROBO STEAM 방배센터</div><div class="cph"><a href="tel:02-6338-6383">📞 02-6338-6383</a></div><div class="cdiv"></div><div class="cdes">방배 지역 가족들과 함께하는 창의력 중심의 로봇코딩 교육.</div><a href="https://blog.naver.com/nikyzzang" target="_blank" class="clnk">문의하기 →</a></div>
+      <div class="ctr"><div class="cnum">02</div><div class="creg">경기 분당</div><div class="cnm">ROBO STEAM 분당센터</div><div class="cph"><a href="tel:031-717-2023">📞 031-717-2023</a></div><div class="cdiv"></div><div class="cdes">분당 지역 미래 인재를 키우는 ROBO STEAM 파트너 센터.</div><a href="https://blog.naver.com/learnsteamrobot" target="_blank" class="clnk">문의하기 →</a></div>
+      <div class="ctr"><div class="cnum">03</div><div class="creg">인천 송도</div><div class="cnm">ROBO STEAM 송도센터</div><div class="cph"><a href="tel:032-710-3334">📞 032-710-3334</a></div><div class="cdiv"></div><div class="cdes">송도 국제도시에서 글로벌 감각을 키우는 STEAM 로봇코딩 교육.</div><a href="https://blog.naver.com/songdosmartlearning" target="_blank" class="clnk">문의하기 →</a></div>
+      <div class="ctr"><div class="cnum">04</div><div class="creg">경기 수지</div><div class="cnm">ROBO STEAM 수지센터</div><div class="cph"><a href="tel:031-265-2050">📞 031-265-2050</a></div><div class="cdiv"></div><div class="cdes">수지 지역 아이들의 창의적 성장을 이끄는 로봇코딩 교육.</div><a href="https://link24.kr/4bkODiw" target="_blank" class="clnk">문의하기 →</a></div>
+      <div class="ctr"><div class="cnum">05</div><div class="creg">강원 춘천</div><div class="cnm">ROBO STEAM 춘천센터</div><div class="cph"><a href="tel:0507-1355-0435">📞 0507-1355-0435</a></div><div class="cdiv"></div><div class="cdes">춘천 지역에서 미래 역량을 키우는 STEAM 로봇코딩 교육.</div><a href="https://blog.naver.com/tonybricks" target="_blank" class="clnk">문의하기 →</a></div>
     </div>
   </div>
 </section>
